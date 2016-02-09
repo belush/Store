@@ -8,3 +8,13 @@ c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.DA
 c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.DAL\obj\Debug\Store.DAL.csprojResolveAssemblyReference.cache
 c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.DAL\obj\Debug\Store.DAL.dll
 c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.DAL\obj\Debug\Store.DAL.pdb
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\bin\Debug\Store.DAL.dll.config
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\bin\Debug\Store.DAL.dll
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\bin\Debug\Store.DAL.pdb
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\bin\Debug\EntityFramework.dll
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\bin\Debug\EntityFramework.xml
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.csprojResolveAssemblyReference.cache
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.dll
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.pdb
