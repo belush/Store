@@ -1,0 +1,10 @@
+c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.DAL\bin\Debug\Store.DAL.dll.config
+c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.DAL\bin\Debug\Store.DAL.dll
+c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.DAL\bin\Debug\Store.DAL.pdb
+c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.DAL\bin\Debug\EntityFramework.dll
+c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.DAL\bin\Debug\EntityFramework.SqlServer.dll
+c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.DAL\bin\Debug\EntityFramework.xml
+c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.DAL\bin\Debug\EntityFramework.SqlServer.xml
+c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.DAL\obj\Debug\Store.DAL.csprojResolveAssemblyReference.cache
+c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.DAL\obj\Debug\Store.DAL.dll
+c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.DAL\obj\Debug\Store.DAL.pdb
