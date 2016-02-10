@@ -136,3 +136,7 @@ C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\bin\
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\obj\Debug\Store.WEB.csprojResolveAssemblyReference.cache
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\obj\Debug\Store.WEB.dll
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\obj\Debug\Store.WEB.pdb
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\bin\Store.BLL.dll
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\bin\Store.DAL.dll
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\bin\Store.BLL.pdb
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\bin\Store.DAL.pdb

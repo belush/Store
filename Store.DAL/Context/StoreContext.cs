@@ -6,7 +6,8 @@ namespace Store.DAL.Context
     public class StoreContext : DbContext
     {
         public StoreContext() : base("StoreConnection")
-        { }
+        {
+        }
 
         public DbSet<Category> Categories { set; get; }
         public DbSet<Color> Colors { set; get; }

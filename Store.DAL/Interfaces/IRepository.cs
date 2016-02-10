@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Store.DAL.Interfaces
 {
@@ -10,7 +7,7 @@ namespace Store.DAL.Interfaces
     {
         IEnumerable<T> GetAll();
         T Get(int id);
-        IEnumerable<T> Find(Func<T, Boolean> preducate);
+        IEnumerable<T> Find(Func<T, bool> predicate);
         void Add(T entity);
         void Delete(int id);
         void Edit(T entity);

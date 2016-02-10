@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using Store.DAL.Context;
 using Store.DAL.Entities;
 using Store.DAL.Interfaces;
@@ -23,9 +24,9 @@ namespace Store.DAL.Repositories
             return db.Goods.Find(id);
         }
 
-        public IEnumerable<Good> Find(Func<Good, bool> preducate)
+        public IEnumerable<Good> Find(Func<Good, bool> predicate)
         {
-            throw new NotImplementedException();
+            return db.Goods.Where(predicate);
         }
 
         public void Add(Good entity)

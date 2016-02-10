@@ -3,3 +3,12 @@ c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.BL
 c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.BLL\obj\Debug\Store.BLL.csprojResolveAssemblyReference.cache
 c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.BLL\obj\Debug\Store.BLL.dll
 c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.BLL\obj\Debug\Store.BLL.pdb
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\Store.BLL.dll
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\Store.BLL.pdb
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\obj\Debug\Store.BLL.csprojResolveAssemblyReference.cache
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\obj\Debug\Store.BLL.dll
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\obj\Debug\Store.BLL.pdb
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\Store.DAL.dll
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\EntityFramework.dll
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\Store.DAL.pdb
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\EntityFramework.xml

@@ -40,11 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IGoodLogic.cs" />
+    <Compile Include="Logic\GoodLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Logic\" />
+    <ProjectReference Include="..\Store.DAL\Store.DAL.csproj">
+      <Project>{6cd111a2-ae6b-43bf-9282-e793cd97928d}</Project>
+      <Name>Store.DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
