@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Store.BLL.Interfaces;
 using Store.BLL.Logic;
@@ -14,34 +9,20 @@ using Store.DAL.Repositories;
 
 namespace Store.WEB.Controllers
 {
-    public class GoodsController : Controller
+    public class StatusController : Controller
     {
-        private readonly IGoodLogic _goodLogic;
+        private readonly IStatusLogic _statusLogic;
 
-        public GoodsController()
+        public StatusController()
         {
             var context = new StoreContext();
 
-            _goodLogic = new GoodLogic(new GoodRepository(context));
+            _statusLogic = new StatusLogic(new StatusRepository(context));
         }
 
         public ActionResult Index()
         {
-            return View(_goodLogic.GetAll());
-        }
-
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Good good = _goodLogic.Get(id);
-            if (good == null)
-            {
-                return HttpNotFound();
-            }
-            return View(good);
+            return View(_statusLogic.GetAll());
         }
 
         public ActionResult Create()
@@ -51,15 +32,16 @@ namespace Store.WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Date,Description,Image,Count")] Good good)
+        public ActionResult Create([Bind(Include = "Id,Name")] Status status)
         {
             if (ModelState.IsValid)
             {
-                _goodLogic.Add(good);
+                _statusLogic.Add(status);
+
                 return RedirectToAction("Index");
             }
 
-            return View(good);
+            return View(status);
         }
 
         public ActionResult Edit(int? id)
@@ -68,24 +50,24 @@ namespace Store.WEB.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Good good = _goodLogic.Get(id);
-            if (good == null)
+            var status = _statusLogic.GetAll().FirstOrDefault(s => s.Id == id);
+            if (status == null)
             {
                 return HttpNotFound();
             }
-            return View(good);
+            return View(status);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Date,Description,Image,Count")] Good good)
+        public ActionResult Edit([Bind(Include = "Id,Name")] Status status)
         {
             if (ModelState.IsValid)
             {
-                _goodLogic.Edit(good);
+                _statusLogic.Edit(status);
                 return RedirectToAction("Index");
             }
-            return View(good);
+            return View(status);
         }
 
         public ActionResult Delete(int? id)
@@ -94,29 +76,30 @@ namespace Store.WEB.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Good good = _goodLogic.Get(id);
-            if (good == null)
+            var status = _statusLogic.Get(id);
+            if (status == null)
             {
                 return HttpNotFound();
             }
-            return View(good);
+            return View(status);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            _goodLogic.Delete(id);
+            _statusLogic.Delete(id);
             return RedirectToAction("Index");
         }
 
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        //db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
         //}
+        //    base.Dispose(disposing);
+        //    }
+        //        db.Dispose();
+        //    {
+        //    if (disposing)
+        //{
+
+        //protected override void Dispose(bool disposing)
     }
 }

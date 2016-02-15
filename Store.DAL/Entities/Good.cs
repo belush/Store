@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Store.DAL.Context;
 
 namespace Store.DAL.Entities
 {
@@ -26,6 +25,6 @@ namespace Store.DAL.Entities
 
         public virtual Color Color { get; set; }
 
-        public ICollection<OrderItem> OrderItems { get; set; }
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }

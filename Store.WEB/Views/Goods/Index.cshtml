@@ -26,6 +26,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Count)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price.Name)
+        </th>
         <th></th>
     </tr>
 
@@ -47,6 +50,10 @@
             @Html.DisplayFor(modelItem => item.Count)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Price.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Buy", "Create", "OrderItems", new { id=item.Id }, null) |
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
