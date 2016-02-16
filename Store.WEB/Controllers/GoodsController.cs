@@ -14,12 +14,14 @@ namespace Store.WEB.Controllers
 {
     public class GoodsController : Controller
     {
+        private readonly ICategoryLogic _categoryLogic;
         private readonly IGoodLogic _goodLogic;
 
         public GoodsController()
         {
             var context = new StoreContext();
             _goodLogic = new GoodLogic(new GoodRepository(context));
+            _categoryLogic = new CategoryLogic(new CategoryRepository(context));
         }
 
         public ActionResult Index()
@@ -84,13 +86,22 @@ namespace Store.WEB.Controllers
 
         public ActionResult Create()
         {
+            var categories = _categoryLogic.GetAll().
+                Select(s => new SelectListItem
+                {
+                    Text = s.Name,
+                    Value = s.Id.ToString()
+                }).ToList();
+
+            ViewBag.Categories = categories;
+
             return View();
         }
 
         //[Bind(Include = "Id,Name,Date,Description,Image,Count")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create( Good good, HttpPostedFileBase upload)
+        public ActionResult Create(Good good, string categoryId, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
@@ -104,6 +115,10 @@ namespace Store.WEB.Controllers
                     }
                 }
 
+                int id = int.Parse(categoryId);
+                Category category = _categoryLogic.Get(id);
+                good.Category = category;
+
                 _goodLogic.Add(good);
                 return RedirectToAction("Index");
             }
@@ -113,16 +128,13 @@ namespace Store.WEB.Controllers
 
         public FileContentResult GetImage(int id)
         {
-            Good good = _goodLogic.Get(id);
+            var good = _goodLogic.Get(id);
 
             if (good != null)
             {
-                return File(good.Image,good.ImageType);
+                return File(good.Image, good.ImageType);
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         public ActionResult Edit(int? id)
@@ -175,14 +187,14 @@ namespace Store.WEB.Controllers
             return RedirectToAction("Index");
         }
 
-        //}
-        //    base.Dispose(disposing);
-        //    }
-        //        //db.Dispose();
-        //    {
-        //    if (disposing)
-        //{
-
         //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        //db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+
+        //}
     }
 }
