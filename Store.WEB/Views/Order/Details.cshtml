@@ -1,0 +1,52 @@
+﻿@using Store.DAL.Entities
+@model  Store.DAL.Entities.Order
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+<h4>id: @Model.Id</h4>
+<h4>Status: @Model.Status.Name</h4>
+@using (Html.BeginForm())
+{
+    @Html.DropDownList("status", ViewBag.Statuses as List<SelectListItem>)
+    <input type="submit" value="Сменить статус" />
+}
+<h4>DateCreation: @Model.DateCreation</h4>
+<h4>DateSale: @Model.DateSale</h4>
+<h4>Sum: @Model.Sum</h4>
+<h4>User: @Model.User</h4>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Good.Name)*@
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.PriceSale)*@
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Number)*@
+        </th>
+    </tr>
+
+    @foreach (OrderItem item in Model.OrderItems)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Good.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PriceSale)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+        
+        </tr>
+    }
+
+</table>
+

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
-namespace Store.DAL.Entities
+namespace Store.WEB.Models
 {
-    public class Good
+    public class GoodViewModel
     {
         public int Id { get; set; }
 
@@ -19,12 +21,10 @@ namespace Store.DAL.Entities
 
         //public int Size { get; set; }
 
-        public virtual Price Price { get; set; }
+        public decimal Price { get; set; }
 
-        public virtual Category Category { get; set; }
+        public string Category { get; set; }
 
-        public virtual Color Color { get; set; }
-
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
+        public string Color { get; set; }
     }
 }
