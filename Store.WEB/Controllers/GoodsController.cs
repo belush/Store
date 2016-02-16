@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using Store.BLL.Interfaces;
 using Store.BLL.Logic;
@@ -29,7 +31,7 @@ namespace Store.WEB.Controllers
         {
             var goods = _goodLogic.GetAll().ToList();
 
-            if (sort=="name")
+            if (sort == "name")
             {
                 goods = goods.OrderBy(g => g.Name).ToList();
             }
@@ -87,10 +89,28 @@ namespace Store.WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Date,Description,Image,Count")] Good good)
+        public ActionResult Create([Bind(Include = "Id,Name,Date,Description,Image,Count")] Good good,
+            HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    //var avatar = new File
+                    //{
+                    //    FileName = System.IO.Path.GetFileName(upload.FileName),
+                    //    FileType = FileType.Avatar,
+                    //    ContentType = upload.ContentType
+                    //};
+                    using (var reader = new BinaryReader(upload.InputStream))
+                    {
+                        good.Image = reader.ReadBytes(upload.ContentLength);
+                        //avatar.Content = reader.ReadBytes(upload.ContentLength);
+                    }
+                    //student.Files = new List<File> { avatar };
+                }
+
+
                 _goodLogic.Add(good);
                 return RedirectToAction("Index");
             }
@@ -148,14 +168,14 @@ namespace Store.WEB.Controllers
             return RedirectToAction("Index");
         }
 
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        //db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-
         //}
+        //    base.Dispose(disposing);
+        //    }
+        //        //db.Dispose();
+        //    {
+        //    if (disposing)
+        //{
+
+        //protected override void Dispose(bool disposing)
     }
 }
