@@ -6,21 +6,22 @@ using Store.DAL.Interfaces;
 
 namespace Store.BLL.Logic
 {
-    public class GoodLogic : IGoodLogic
+    public class CategoryLogic : ICategoryLogic
     {
-        private readonly IRepository<Good> _repository;
+        private readonly IRepository<Category> _repository;
 
-        public GoodLogic(IRepository<Good> repository)
+        public CategoryLogic(IRepository<Category> repository)
         {
             _repository = repository;
         }
 
-        public IEnumerable<Good> GetAll()
+
+        public IEnumerable<Category> GetAll()
         {
             return _repository.GetAll();
         }
 
-        public Good Get(int? id)
+        public Category Get(int? id)
         {
             if (id == null)
             {
@@ -29,14 +30,14 @@ namespace Store.BLL.Logic
             return _repository.Get(id.Value);
         }
 
-        public IEnumerable<Good> Find(Func<Good, bool> predicate)
+        public IEnumerable<Category> Find(Func<Category, bool> predicate)
         {
             return _repository.Find(predicate);
         }
 
-        public void Add(Good good)
+        public void Add(Category category)
         {
-            _repository.Add(good);
+            _repository.Add(category);
         }
 
         public void Delete(int id)
@@ -44,9 +45,9 @@ namespace Store.BLL.Logic
             _repository.Delete(id);
         }
 
-        public void Edit(Good good)
+        public void Edit(Category category)
         {
-            _repository.Edit(good);
+            _repository.Edit(category);
         }
     }
 }

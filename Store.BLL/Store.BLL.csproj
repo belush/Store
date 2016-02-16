@@ -40,10 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\ICategoryLogic.cs" />
     <Compile Include="Interfaces\IGoodLogic.cs" />
     <Compile Include="Interfaces\IOrderItemLogic.cs" />
     <Compile Include="Interfaces\IOrderLogic.cs" />
     <Compile Include="Interfaces\IStatusLogic.cs" />
+    <Compile Include="Logic\CategoryLogic.cs" />
     <Compile Include="Logic\GoodLogic.cs" />
     <Compile Include="Logic\OrderItemLogic.cs" />
     <Compile Include="Logic\OrderLogic.cs" />
