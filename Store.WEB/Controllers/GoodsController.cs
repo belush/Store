@@ -87,35 +87,42 @@ namespace Store.WEB.Controllers
             return View();
         }
 
+        //[Bind(Include = "Id,Name,Date,Description,Image,Count")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Date,Description,Image,Count")] Good good,
-            HttpPostedFileBase upload)
+        public ActionResult Create( Good good, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
                 if (upload != null && upload.ContentLength > 0)
                 {
-                    //var avatar = new File
-                    //{
-                    //    FileName = System.IO.Path.GetFileName(upload.FileName),
-                    //    FileType = FileType.Avatar,
-                    //    ContentType = upload.ContentType
-                    //};
+                    good.ImageType = upload.ContentType;
+
                     using (var reader = new BinaryReader(upload.InputStream))
                     {
                         good.Image = reader.ReadBytes(upload.ContentLength);
-                        //avatar.Content = reader.ReadBytes(upload.ContentLength);
                     }
-                    //student.Files = new List<File> { avatar };
                 }
-
 
                 _goodLogic.Add(good);
                 return RedirectToAction("Index");
             }
 
             return View(good);
+        }
+
+        public FileContentResult GetImage(int id)
+        {
+            Good good = _goodLogic.Get(id);
+
+            if (good != null)
+            {
+                return File(good.Image,good.ImageType);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public ActionResult Edit(int? id)

@@ -39,7 +39,14 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Image)
+            @if (Model.Image != null)
+            {
+                <div class="pull-left" style="margin-right: 10px">
+                    <img class="img-thumbnail" width="75" height="75"
+                        src="@Url.Action("GetImage", "Goods", new { Model.Id })" />
+                </div>
+            }
+            @*@Html.DisplayFor(model => model.Image)*@
         </dd>
 
         <dt>

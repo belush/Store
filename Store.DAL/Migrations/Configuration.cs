@@ -1,18 +1,19 @@
-namespace Store.WEB.Migrations
+namespace Store.DAL.Migrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Store.WEB.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Store.DAL.Context.StoreContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
+            ContextKey = "Store.DAL.Context.StoreContext";
         }
 
-        protected override void Seed(Store.WEB.Models.ApplicationDbContext context)
+        protected override void Seed(Store.DAL.Context.StoreContext context)
         {
             //  This method will be called after migrating to the latest version.
 

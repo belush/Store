@@ -18,3 +18,6 @@ C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\bin\
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.csprojResolveAssemblyReference.cache
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.dll
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.pdb
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.Migrations.InitialCreate.resources
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.csproj.GenerateResource.Cache
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.Migrations._new.resources

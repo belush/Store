@@ -140,5 +140,3 @@ C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\bin\
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\bin\Store.DAL.dll
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\bin\Store.BLL.pdb
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\bin\Store.DAL.pdb
-C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\obj\Debug\Store.WEB.Migrations._new.resources
-C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\obj\Debug\Store.WEB.csproj.GenerateResource.Cache

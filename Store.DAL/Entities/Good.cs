@@ -15,6 +15,8 @@ namespace Store.DAL.Entities
 
         public byte[] Image { get; set; }
 
+        public string ImageType { get; set; }
+
         public int Count { get; set; }
 
         //public int Size { get; set; }
