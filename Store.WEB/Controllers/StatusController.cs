@@ -50,7 +50,9 @@ namespace Store.WEB.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var status = _statusLogic.GetAll().FirstOrDefault(s => s.Id == id);
+
+            var status = _statusLogic.Get(id);
+
             if (status == null)
             {
                 return HttpNotFound();
@@ -76,7 +78,9 @@ namespace Store.WEB.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             var status = _statusLogic.Get(id);
+
             if (status == null)
             {
                 return HttpNotFound();

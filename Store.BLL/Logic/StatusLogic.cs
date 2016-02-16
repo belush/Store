@@ -31,6 +31,7 @@ namespace Store.BLL.Logic
             {
                 throw new ArgumentException("id null");
             }
+
             return _repository.Get(id.Value);
         }
 

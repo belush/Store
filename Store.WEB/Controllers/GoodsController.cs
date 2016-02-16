@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Store.BLL.Interfaces;
 using Store.BLL.Logic;
 using Store.DAL.Context;
 using Store.DAL.Entities;
 using Store.DAL.Repositories;
+using Store.WEB.Models;
 
 namespace Store.WEB.Controllers
 {
@@ -21,7 +17,6 @@ namespace Store.WEB.Controllers
         public GoodsController()
         {
             var context = new StoreContext();
-
             _goodLogic = new GoodLogic(new GoodRepository(context));
         }
 
@@ -30,13 +25,54 @@ namespace Store.WEB.Controllers
             return View(_goodLogic.GetAll());
         }
 
+        public ActionResult GoodsSearch(string search, string sort)
+        {
+            var goods = _goodLogic.GetAll().ToList();
+
+            if (sort=="name")
+            {
+                goods = goods.OrderBy(g => g.Name).ToList();
+            }
+            if (sort == "count")
+            {
+                goods = goods.OrderBy(g => g.Count).ToList();
+            }
+
+            var goodViews = goods.Select(good => new GoodViewModel
+            {
+                Id = good.Id,
+                Name = good.Name,
+                Count = good.Count,
+                //Category= good.Category.Name,
+                //Color= good.Color.Name,
+                //Price= good.Price.Value,
+                Date = good.Date,
+                Description = good.Description,
+                Image = good.Image
+            }).ToList();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                goodViews = goodViews.Where(i => i.Name.ToLower().StartsWith(search.ToLower())).ToList();
+            }
+
+            //if (!string.IsNullOrEmpty(search))
+            //{
+            //    goods = goods.Where(i => i.Name.ToLower().StartsWith(search.ToLower())).ToList();
+            //}
+
+            return Json(goodViews, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Good good = _goodLogic.Get(id);
+
+            var good = _goodLogic.Get(id);
+
             if (good == null)
             {
                 return HttpNotFound();
@@ -68,7 +104,9 @@ namespace Store.WEB.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Good good = _goodLogic.Get(id);
+
+            var good = _goodLogic.Get(id);
+
             if (good == null)
             {
                 return HttpNotFound();
@@ -94,7 +132,7 @@ namespace Store.WEB.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Good good = _goodLogic.Get(id);
+            var good = _goodLogic.Get(id);
             if (good == null)
             {
                 return HttpNotFound();
@@ -117,6 +155,7 @@ namespace Store.WEB.Controllers
         //        //db.Dispose();
         //    }
         //    base.Dispose(disposing);
+
         //}
     }
 }
