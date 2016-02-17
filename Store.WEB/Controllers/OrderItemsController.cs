@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -30,20 +28,18 @@ namespace Store.WEB.Controllers
 
         public ActionResult Index()
         {
-            IEnumerable<OrderItem> items = _orderItemLogic.GetByOrderNull();
+            var items = _orderItemLogic.GetByOrderNull();
             return View(items);
         }
 
         [HttpPost]
         public ActionResult Index(int? a)
         {
-            
-
-            Order order = new Order();
+            var order = new Order();
             ///TODO: refactor 1
-            Status status = _statusLogic.Get(1);
+            var status = _statusLogic.Get(1);
             ///TODO: refactor LINQ
-            IEnumerable<OrderItem> orderItems = _orderItemLogic.GetByOrderNull();
+            var orderItems = _orderItemLogic.GetByOrderNull();
 
             order.OrderItems = orderItems.ToList();
             order.DateCreation = DateTime.Now;
@@ -75,7 +71,7 @@ namespace Store.WEB.Controllers
         {
             var good = _goodLogic.Get(id);
             var orderItem = new OrderItem {Good = good};
-
+            orderItem.PriceSale = good.PriceSale.Value;
             return View(orderItem);
         }
 
@@ -86,7 +82,7 @@ namespace Store.WEB.Controllers
             if (ModelState.IsValid)
             {
                 ///TODO: refactor 1
-                Good good = _goodLogic.Get(1);
+                var good = _goodLogic.Get(1);
                 orderItem.Good = good;
                 _orderItemLogic.Add(orderItem);
 
@@ -145,13 +141,14 @@ namespace Store.WEB.Controllers
             return RedirectToAction("Index");
         }
 
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        //db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
         //}
+        //    base.Dispose(disposing);
+        //    }
+        //        //db.Dispose();
+        //    {
+        //    if (disposing)
+        //{
+
+        //protected override void Dispose(bool disposing)
     }
 }

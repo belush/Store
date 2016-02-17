@@ -17,6 +17,7 @@ namespace Store.WEB.Controllers
     public class GoodsController : Controller
     {
         private readonly ICategoryLogic _categoryLogic;
+        private readonly IColorLogic _colorLogic;
         private readonly IGoodLogic _goodLogic;
 
         public GoodsController()
@@ -24,63 +25,138 @@ namespace Store.WEB.Controllers
             var context = new StoreContext();
             _goodLogic = new GoodLogic(new GoodRepository(context));
             _categoryLogic = new CategoryLogic(new CategoryRepository(context));
+            _colorLogic = new ColorLogic(new ColorRepository(context));
         }
 
         public ActionResult Index()
         {
+            //TODO: remove to BLL
+            var categories = _categoryLogic.GetAll().
+                Select(s => new SelectListItem
+                {
+                    Text = s.Name,
+                    Value = s.Id.ToString()
+                }).ToList();
+            categories.Add(new SelectListItem {Value = "0", Text = "Любой", Selected = true});
+
+            //TODO: remove to BLL
+            var colors = _colorLogic.GetAll().
+                Select(s => new SelectListItem
+                {
+                    Text = s.Name,
+                    Value = s.Id.ToString()
+                }).ToList();
+            colors.Add(new SelectListItem {Value = "0", Text = "Любая", Selected = true});
+
+
+            ViewBag.Categories = categories;
+            ViewBag.Colors = colors;
+
             var goods = _goodLogic.GetAll();
-
-
-            Mapper.CreateMap<Good, GoodViewModel>()
-                .ForMember("PriceIncome",
-                    opt => opt.MapFrom(v => v.PriceIncome.Value))
-                .ForMember("PriceSale",
-                    opt => opt.MapFrom(v => v.PriceSale.Value))
-                .ForMember("Category",
-                    opt => opt.MapFrom(v => v.Category.Name))
-                .ForMember("Color",
-                    opt => opt.MapFrom(v => v.Color.Name));
-
             var goodViews = Mapper.Map<IEnumerable<Good>, IEnumerable<GoodViewModel>>(goods);
 
             return View(goodViews);
         }
 
-        public ActionResult GoodsSearch(string search, string sort)
+        public ActionResult GoodsSearch(string search, FilterModel filter)
         {
             var goods = _goodLogic.GetAll().ToList();
-
-            if (sort == "name")
+            IEnumerable<Good> goodsResult = goods;
+            if (filter.CategoryId == 0)
             {
-                goods = goods.OrderBy(g => g.Name).ToList();
+                IEnumerable<Good> goodsTemp = _goodLogic.GetAll().ToList();
+
+                goodsResult = goodsResult.Intersect(goodsTemp);
+
+                //foreach (Good good in goodsTemp.Where(good => !goods.Contains(good)))
+                //{
+                //    goods.Add(good);
+                //}
             }
-            if (sort == "count")
+            else if (filter.CategoryId > 0)
             {
-                goods = goods.OrderBy(g => g.Count).ToList();
+                IEnumerable<Good> goodsTemp =
+                    _goodLogic.GetAll().ToList().Where(i => i.Category.Id == filter.CategoryId).ToList();
+                goodsResult = goodsResult.Intersect(goodsTemp);
             }
 
-            var goodViews = goods.Select(good => new GoodCreateModel
+            if (filter.ColorId == 0)
+            {
+                IEnumerable<Good> goodsTemp = _goodLogic.GetAll().ToList();
+                goodsResult = goodsResult.Intersect(goodsTemp);
+
+                //foreach (Good good in goodsTemp.Where(good => !goods.Contains(good)))
+                //{
+                //    goods.Add(good);
+                //}
+            }
+            else if (filter.ColorId > 0)
+            {
+                IEnumerable<Good> goodsTemp =
+                    _goodLogic.GetAll().ToList().Where(i => i.Color.Id == filter.ColorId).ToList();
+                goodsResult = goodsResult.Intersect(goodsTemp);
+            }
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                IEnumerable<Good> goodsTemp =
+                    _goodLogic.GetAll().ToList().Where(i => i.Name.ToLower().StartsWith(search.ToLower())).ToList();
+                goodsResult = goodsResult.Intersect(goodsTemp);
+            }
+
+            if (filter.PriceFrom != 0)
+            {
+                IEnumerable<Good> goodsTemp =
+                    _goodLogic.GetAll().ToList().Where(i => i.PriceSale.Value > filter.PriceFrom).ToList();
+                goodsResult = goodsResult.Intersect(goodsTemp);
+            }
+
+            if (filter.PriceTo != 0)
+            {
+                IEnumerable<Good> goodsTemp =
+                    _goodLogic.GetAll().ToList().Where(i => i.PriceSale.Value < filter.PriceTo).ToList();
+                goodsResult = goodsResult.Intersect(goodsTemp);
+            }
+
+
+            if (filter.SizeD != 0)
+            {
+                IEnumerable<Good> goodsTemp =
+                    _goodLogic.GetAll().ToList().Where(i => i.SizeDepth == filter.SizeD).ToList();
+                goodsResult = goodsResult.Intersect(goodsTemp);
+            }
+
+            if (filter.SizeH != 0)
+            {
+                IEnumerable<Good> goodsTemp =
+                    _goodLogic.GetAll().ToList().Where(i => i.SizeHeight == filter.SizeH).ToList();
+                goodsResult = goodsResult.Intersect(goodsTemp);
+            }
+
+            if (filter.SizeW != 0)
+            {
+                IEnumerable<Good> goodsTemp =
+                    _goodLogic.GetAll().ToList().Where(i => i.SizeWidth == filter.SizeW).ToList();
+                goodsResult = goodsResult.Intersect(goodsTemp);
+            }
+
+            //var goodViews = Mapper.Map<IEnumerable<Good>, IEnumerable<GoodViewModel>>(goods);
+
+            var goodViews = goodsResult.Select(good => new GoodViewModel
             {
                 Id = good.Id,
                 Name = good.Name,
                 Count = good.Count,
-                //Category= good.Category.Name,
-                //Color= good.Color.Name,
-                //Price= good.Price.Value,
+                Category = good.Category.Name,
+                Color = good.Color.Name,
+                PriceSale = good.PriceSale.Value,
                 Date = good.Date,
-                Description = good.Description,
-                Image = good.Image
+                SizeDepth = good.SizeDepth,
+                SizeHeight = good.SizeHeight,
+                SizeWidth = good.SizeWidth,
+                Description = good.Description
+                //Image = good.Image
             }).ToList();
-
-            if (!string.IsNullOrEmpty(search))
-            {
-                goodViews = goodViews.Where(i => i.Name.ToLower().StartsWith(search.ToLower())).ToList();
-            }
-
-            //if (!string.IsNullOrEmpty(search))
-            //{
-            //    goods = goods.Where(i => i.Name.ToLower().StartsWith(search.ToLower())).ToList();
-            //}
 
             return Json(goodViews, JsonRequestBehavior.AllowGet);
         }
@@ -103,6 +179,7 @@ namespace Store.WEB.Controllers
 
         public ActionResult Create()
         {
+            //TODO: remove to BLL
             var categories = _categoryLogic.GetAll().
                 Select(s => new SelectListItem
                 {
@@ -110,7 +187,16 @@ namespace Store.WEB.Controllers
                     Value = s.Id.ToString()
                 }).ToList();
 
+            //TODO: remove to BLL
+            var colors = _colorLogic.GetAll().
+                Select(s => new SelectListItem
+                {
+                    Text = s.Name,
+                    Value = s.Id.ToString()
+                }).ToList();
+
             ViewBag.Categories = categories;
+            ViewBag.Colors = colors;
 
             return View();
         }
@@ -123,15 +209,6 @@ namespace Store.WEB.Controllers
             if (ModelState.IsValid)
             {
                 ///TODO: refactor and remove to certain class
-                Mapper.CreateMap<GoodCreateModel, Good>()
-                    .ForMember("PriceIncome",
-                        opt => opt.MapFrom(v => new Price {Value = v.PriceIncome}))
-                    .ForMember("PriceSale",
-                        opt => opt.MapFrom(v => new Price {Value = v.PriceSale}))
-                    .ForMember("Category",
-                        opt => opt.MapFrom(v => _categoryLogic.Get(v.CategoryId)))
-                    .ForMember("Color",
-                        opt => opt.MapFrom(v => new Color {Name = v.ColorId.ToString()}));
 
                 var good = Mapper.Map<GoodCreateModel, Good>(goodCreateModel);
 
@@ -164,6 +241,7 @@ namespace Store.WEB.Controllers
             return null;
         }
 
+        //TODO: refactor with good view model
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -213,15 +291,5 @@ namespace Store.WEB.Controllers
             _goodLogic.Delete(id);
             return RedirectToAction("Index");
         }
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        //db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-
-        //}
     }
 }
