@@ -19,9 +19,15 @@ namespace Store.DAL.Entities
 
         public int Count { get; set; }
 
-        //public int Size { get; set; }
+        public int SizeWidth { get; set; }
 
-        public virtual Price Price { get; set; }
+        public int SizeHeight { get; set; }
+
+        public int SizeDepth { get; set; }
+
+        public virtual Price PriceIncome { get; set; }
+
+        public virtual Price PriceSale { get; set; }
 
         public virtual Category Category { get; set; }
 

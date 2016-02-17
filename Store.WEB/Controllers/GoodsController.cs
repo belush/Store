@@ -1,8 +1,10 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using Store.BLL.Interfaces;
 using Store.BLL.Logic;
 using Store.DAL.Context;
@@ -26,7 +28,22 @@ namespace Store.WEB.Controllers
 
         public ActionResult Index()
         {
-            return View(_goodLogic.GetAll());
+            var goods = _goodLogic.GetAll();
+
+
+            Mapper.CreateMap<Good, GoodViewModel>()
+                .ForMember("PriceIncome",
+                    opt => opt.MapFrom(v => v.PriceIncome.Value))
+                .ForMember("PriceSale",
+                    opt => opt.MapFrom(v => v.PriceSale.Value))
+                .ForMember("Category",
+                    opt => opt.MapFrom(v => v.Category.Name))
+                .ForMember("Color",
+                    opt => opt.MapFrom(v => v.Color.Name));
+
+            var goodViews = Mapper.Map<IEnumerable<Good>, IEnumerable<GoodViewModel>>(goods);
+
+            return View(goodViews);
         }
 
         public ActionResult GoodsSearch(string search, string sort)
@@ -42,7 +59,7 @@ namespace Store.WEB.Controllers
                 goods = goods.OrderBy(g => g.Count).ToList();
             }
 
-            var goodViews = goods.Select(good => new GoodViewModel
+            var goodViews = goods.Select(good => new GoodCreateModel
             {
                 Id = good.Id,
                 Name = good.Name,
@@ -101,10 +118,24 @@ namespace Store.WEB.Controllers
         //[Bind(Include = "Id,Name,Date,Description,Image,Count")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Good good, string categoryId, HttpPostedFileBase upload)
+        public ActionResult Create(GoodCreateModel goodCreateModel, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
+                ///TODO: refactor and remove to certain class
+                Mapper.CreateMap<GoodCreateModel, Good>()
+                    .ForMember("PriceIncome",
+                        opt => opt.MapFrom(v => new Price {Value = v.PriceIncome}))
+                    .ForMember("PriceSale",
+                        opt => opt.MapFrom(v => new Price {Value = v.PriceSale}))
+                    .ForMember("Category",
+                        opt => opt.MapFrom(v => _categoryLogic.Get(v.CategoryId)))
+                    .ForMember("Color",
+                        opt => opt.MapFrom(v => new Color {Name = v.ColorId.ToString()}));
+
+                var good = Mapper.Map<GoodCreateModel, Good>(goodCreateModel);
+
+
                 if (upload != null && upload.ContentLength > 0)
                 {
                     good.ImageType = upload.ContentType;
@@ -115,15 +146,11 @@ namespace Store.WEB.Controllers
                     }
                 }
 
-                int id = int.Parse(categoryId);
-                Category category = _categoryLogic.Get(id);
-                good.Category = category;
-
                 _goodLogic.Add(good);
                 return RedirectToAction("Index");
             }
 
-            return View(good);
+            return View(goodCreateModel);
         }
 
         public FileContentResult GetImage(int id)

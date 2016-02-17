@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Store.WEB.Models
 {
@@ -19,9 +16,15 @@ namespace Store.WEB.Models
 
         public int Count { get; set; }
 
-        //public int Size { get; set; }
+        public int SizeWidth { get; set; }
 
-        public decimal Price { get; set; }
+        public int SizeHeight { get; set; }
+
+        public int SizeDepth { get; set; }
+
+        public decimal PriceIncome { get; set; }
+
+        public decimal PriceSale { get; set; }
 
         public string Category { get; set; }
 

@@ -1,17 +1,19 @@
-﻿@model IEnumerable<Store.DAL.Entities.Good>
+﻿@model IEnumerable<Store.WEB.Models.GoodViewModel>
 
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Товары</h2>
-<div style="background: lightgreen; float: right;">
+
+@*<div style="background: lightgreen; float: right;">
     Filter
     <br />
     Цена
     <input type="text" name="search" /><br />
     <input type="submit" value="Фильтровать" />
-</div>
+</div>*@
+
 <p>
     @Html.ActionLink("Добавить", "Create")
 </p>
@@ -28,7 +30,6 @@
         <input type="submit" value="Поиск" />
     </div>
 }
-
 
 <div style="overflow:hidden;">
     <table id="result" class="table"></table>
@@ -52,124 +53,86 @@
             @Html.DisplayNameFor(model => model.Count)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Price.Value)
+            @Html.DisplayNameFor(model => model.SizeWidth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SizeHeight)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SizeDepth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PriceIncome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PriceSale)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Color)
         </th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                <b>@Html.DisplayFor(modelItem => item.Name)</b>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-              @if (item.Image != null)
-              {
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Image)
+        </td>*@
+
+        <td>
+            @if (item.Image != null)
+            {
                 <div class="pull-left" style="margin-right: 10px">
                     <img class="img-thumbnail" width="75" height="75"
-                         src="@Url.Action("GetImage", "Goods", new { item.Id })"  />
+                         src="@Url.Action("GetImage", "Goods", new { item.Id })" />
                 </div>
-              }
-                @*@Html.DisplayFor(modelItem => item.Image)*@
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Count)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price.Value)
-            </td>
-            <td>
-                @Html.ActionLink("В корзину", "Create", "OrderItems", new {id = item.Id}, null) |
-                @Html.ActionLink("Подробнее", "Details", new { id = item.Id })
-                <br/>
-                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-    }
+            }
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Count)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SizeWidth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SizeHeight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SizeDepth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PriceIncome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PriceSale)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Color)
+        </td>
+        <td>
+            @Html.ActionLink("В корзину", "Create", "OrderItems", new { id = item.Id }, null) |
+            @Html.ActionLink("Подробнее", "Details", new { id = item.Id })
+            <br />
+            @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+        </td>
+    </tr>
+}
 
 </table>
-
-<script type="text/javascript">
-
-    function ParseJson(data) {
-        var target = $("#result");
-        target.empty();
-
-        if (data.length == 0) {
-            target.append("Результатов нет<br>Попробуй еще!");
-        } else {
-
-            target.append("<tr>+" +
-                "<th>@Html.DisplayNameFor(model => model.Name)</th>" +
-                "<th>@Html.DisplayNameFor(model => model.Date)</th>" +
-                "<th>@Html.DisplayNameFor(model => model.Description)</th>" +
-                "<th>@Html.DisplayNameFor(model => model.Image)</th>" +
-                "<th>@Html.DisplayNameFor(model => model.Count)</th>" +
-                "<th></th>" +
-                "</tr>");
-
-            for (var i = 0; i < data.length; i++) {
-                var id = data[i].Id;
-                @*var result = '@Html.ActionLink("Buy", "Create","OrderItems", new { id = data[i].Id },null)';*@
-                var date = new Date(parseInt(data[i].Date.replace("/Date(", "").replace(")/", ""), 10)).toLocaleString();
-
-                target.append("<tr>+" +
-                    "<td><b>" + data[i].Name + "</b></td>" +
-                    "<td>" + date + "</td>" +
-                    "<td>" + data[i].Description + "</td>" +
-                    "<td>" + data[i].Image + "</td>" +
-                    "<td>" + data[i].Count + "</td>+" +
-                    "<td><a href=OrderItems/Create/" + data[i].id + ">Buy</a></td>" +
-                    "</tr>");
-                //target.append("<td>oooo</td></tr>");
-                //target.append("<a href='/OrderItems/Create/"+data[i].id+"'>Buy</a>");
-                //target.append("</td></tr>");
-
-            }
-
-        }
-
-
-
-
-
-        @*target.append("<tr>" +
-               "<th>@Html.DisplayNameFor(model => model.ContactName)</th>" +
-               "<th> @Html.DisplayNameFor(model => model.ContactSurname) </th>" +
-               "<th> @Html.DisplayNameFor(model => model.ContactMidName) </th>" +
-               "<th> @Html.DisplayNameFor(model => model.ContactPhoneNumber) </th>" +
-               "<th> @Html.DisplayNameFor(model => model.ContactAddress) </th>" +
-               "<th> @Html.DisplayNameFor(model => model.ContactEmail) </th>" +
-               "<th> @Html.DisplayNameFor(model => model.ContactType) </th>" +
-                    "<th>  </th>" +
-                    "</tr>");
-
-        for (var i = 0; i < data.length; i++) {
-            target.append("<tr>" +
-                    "<td>" + data[i].ContactName + "</td>" +
-                    "<td>" + data[i].ContactSurname + "</td>" +
-                    "<td>" + data[i].ContactMidName + "</td>" +
-                    "<td>" + data[i].ContactPhoneNumber + "</td>" +
-                    "<td>" + data[i].ContactAddress + "</td>" +
-                    "<td>" + data[i].ContactEmail + "</td>" +
-                    "<td>" + data[i].ContactType.ContactTypeName + "</td>" +
-                    "<td> <a href=Contact/Edit/" + data[i].ContactId + ">Редактировать</a>" + " | " +
-                         "<a href=Contact/Delete/" + data[i].ContactId + ">Удалить</a></td>" +
-                "</tr>");
-        }*@
-    }
-</script>
-
-@section Scripts {
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-}

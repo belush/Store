@@ -21,3 +21,5 @@ C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.Migrations.InitialCreate.resources
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.csproj.GenerateResource.Cache
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.Migrations._new.resources
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.Migrations.price.resources
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.Migrations.price2.resources
