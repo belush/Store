@@ -7,6 +7,7 @@ using Store.BLL.Logic;
 using Store.DAL.Context;
 using Store.DAL.Entities;
 using Store.DAL.Repositories;
+using Store.WEB.Models;
 
 namespace Store.WEB.Controllers
 {
@@ -28,8 +29,17 @@ namespace Store.WEB.Controllers
 
         public ActionResult Index()
         {
-            var items = _orderItemLogic.GetByOrderNull();
-            return View(items);
+            //TODO: учесть еще и User.ID (User.ID==Current.User.ID)
+            var orderItems = _orderItemLogic.GetByOrderNull();
+
+            //TODO: refactor
+            var cartViewModel = new CartViewModel();
+            cartViewModel.OrderItems = orderItems;
+
+
+            //return View(orderItems);
+            return View(cartViewModel);
+            return View();
         }
 
         [HttpPost]
@@ -70,26 +80,40 @@ namespace Store.WEB.Controllers
         public ActionResult Create(int? id)
         {
             var good = _goodLogic.Get(id);
-            var orderItem = new OrderItem {Good = good};
-            orderItem.PriceSale = good.PriceSale.Value;
-            return View(orderItem);
+            //var orderItem = new OrderItem {Good = good};
+            //orderItem.PriceSale = good.PriceSale.Value;
+
+            var itemViewModel = new OrderItemViewModel();
+            itemViewModel.Good = good;
+            itemViewModel.GoodId = good.Id;
+
+            //return View(orderItem);
+            return View(itemViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,PriceSale,Number")] OrderItem orderItem)
+        //public ActionResult Create([Bind(Include = "Id,PriceSale,Number")] OrderItemViewModel itemViewModel)
+        public ActionResult Create(OrderItemViewModel itemViewModel)
         {
             if (ModelState.IsValid)
             {
                 ///TODO: refactor 1
-                var good = _goodLogic.Get(1);
-                orderItem.Good = good;
+                //int goodId = orderItem.Good.Id;
+                //var good = _goodLogic.Get(goodId);
+                //orderItem.Good = good;
+                //orderItem.Good = good;
+                var orderItem = new OrderItem();
+                orderItem.Good= _goodLogic.Get(itemViewModel.GoodId);
+                orderItem.Number = itemViewModel.Number;
+
                 _orderItemLogic.Add(orderItem);
 
                 return RedirectToAction("Index");
             }
 
-            return View(orderItem);
+            //return View(orderItem);
+            return View();
         }
 
         public ActionResult Edit(int? id)

@@ -1,4 +1,4 @@
-﻿@model Store.DAL.Entities.OrderItem
+﻿@model Store.WEB.Models.OrderItemViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -12,18 +12,12 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>OrderItemLogic</h4>
+        <h4>OrderItemViewModel</h4>
         <hr/>
-        @Html.HiddenFor(model => model.Good.Id)
+        @Html.HiddenFor(model => model.GoodId)
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.PriceSale, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.PriceSale, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PriceSale, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
+       
+        @Html.DisplayFor(model => model.Good.Name)
         <div class="form-group">
             @Html.LabelFor(model => model.Number, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -38,8 +32,6 @@
             </div>
         </div>
     </div>
-
-
 }
 
 <div>

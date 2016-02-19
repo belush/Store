@@ -13,7 +13,7 @@ using Store.DAL.Repositories;
 using Store.WEB.Models;
 
 namespace Store.WEB.Controllers
-{
+{   
     public class GoodsController : Controller
     {
         private readonly ICategoryLogic _categoryLogic;

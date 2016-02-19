@@ -17,5 +17,6 @@ namespace Store.DAL.Context
         public DbSet<Price> Prices { set; get; }
         public DbSet<Status> Statuses { set; get; }
         public DbSet<User> Users { set; get; }
+
     }
 }
