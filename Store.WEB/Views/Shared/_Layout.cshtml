@@ -27,8 +27,14 @@
                     <li>@Html.ActionLink("Статусы", "Index", "Status")</li>
                     <li>@Html.ActionLink("Категории", "Index", "Category")</li>
                     <li>@Html.ActionLink("Цвета", "Index", "Color")</li>
+                    <li>@Html.ActionLink("Админ", "Index", "Admin")</li>
+                    <li>@Html.Action("Summary", "Cart")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
+               
+                @*<div class="navbar navbar-inverse" role="navigation">
+                    @Html.Action("Summary", "Cart")
+                </div>*@
             </div>
         </div>
     </div>

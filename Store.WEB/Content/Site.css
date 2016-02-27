@@ -38,3 +38,12 @@ textarea {
 .categoryInput {
        width: 80px;
 }
+
+.item {
+    width: 200px;
+    float: left;
+}
+
+.item .img {
+    overflow: hidden;
+}

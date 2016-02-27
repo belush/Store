@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -18,13 +18,13 @@ namespace Store.WEB.Controllers
         private readonly IOrderLogic _orderLogic;
         private readonly IStatusLogic _statusLogic;
 
-        public OrderItemsController()
+        public OrderItemsController(IGoodLogic goodLogic, IOrderItemLogic orderItemLogic,
+            IOrderLogic orderLogic, IStatusLogic statusLogic)
         {
-            var context = new StoreContext();
-            _orderItemLogic = new OrderItemLogic(new OrderItemRepository(context));
-            _orderLogic = new OrderLogic(new OrderRepository(context));
-            _goodLogic = new GoodLogic(new GoodRepository(context));
-            _statusLogic = new StatusLogic(new StatusRepository(context));
+            _orderItemLogic = orderItemLogic;
+            _orderLogic = orderLogic;
+            _goodLogic = goodLogic;
+            _statusLogic = statusLogic;
         }
 
         public ActionResult Index()
@@ -34,7 +34,8 @@ namespace Store.WEB.Controllers
 
             //TODO: refactor
             var cartViewModel = new CartViewModel();
-            cartViewModel.OrderItems = orderItems;
+            cartViewModel.OrderItems = orderItems.ToList();
+            cartViewModel.OrderItemsId = orderItems.Select(x => x.Id.ToString()).ToList();
 
 
             //return View(orderItems);
@@ -43,23 +44,44 @@ namespace Store.WEB.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(int? a)
+        [ValidateAntiForgeryToken]
+        public ActionResult Index([Bind(Include = "Id,Name,DateCreation,DateSale,OrderItems,OrderItemsId")]CartViewModel cart)
         {
             var order = new Order();
-            ///TODO: refactor 1
-            var status = _statusLogic.Get(1);
-            ///TODO: refactor LINQ
-            var orderItems = _orderItemLogic.GetByOrderNull();
 
-            order.OrderItems = orderItems.ToList();
-            order.DateCreation = DateTime.Now;
-            order.DateSale = DateTime.Now;
-            order.Status = status;
+            if (ModelState.IsValid)
+            {
+                order.OrderItems = _orderItemLogic.GetByOrderNull();
+                order.DateCreation = cart.DateCreation;
+                order.DateSale = cart.DateSale;
+                order.Status = _statusLogic.Get(1);
+                order.User = cart.User;
+                order.Sum = cart.Sum;
 
-            _orderLogic.Add(order);
+                _orderLogic.Add(order);
+                return RedirectToAction("Index");
+            }
 
-            return RedirectToAction("Index", "Order");
+            return View();
         }
+        //[HttpPost]
+        //public ActionResult Index(int? a)
+        //{
+        //    var order = new Order();
+        //    ///TODO: refactor 1
+        //    var status = _statusLogic.Get(1);
+        //    ///TODO: refactor LINQ
+        //    var orderItems = _orderItemLogic.GetByOrderNull();
+
+        //    order.OrderItems = orderItems.ToList();
+        //    order.DateCreation = DateTime.Now;
+        //    order.DateSale = DateTime.Now;
+        //    order.Status = status;
+
+        //    _orderLogic.Add(order);
+
+        //    return RedirectToAction("Index", "Order");
+        //}
 
         public ActionResult Details(int? id)
         {
@@ -104,7 +126,7 @@ namespace Store.WEB.Controllers
                 //orderItem.Good = good;
                 //orderItem.Good = good;
                 var orderItem = new OrderItem();
-                orderItem.Good= _goodLogic.Get(itemViewModel.GoodId);
+                orderItem.Good = _goodLogic.Get(itemViewModel.GoodId);
                 orderItem.Number = itemViewModel.Number;
 
                 _orderItemLogic.Add(orderItem);
@@ -165,14 +187,14 @@ namespace Store.WEB.Controllers
             return RedirectToAction("Index");
         }
 
-        //}
-        //    base.Dispose(disposing);
-        //    }
-        //        //db.Dispose();
-        //    {
-        //    if (disposing)
-        //{
-
         //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        //db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+
+        //}
     }
 }

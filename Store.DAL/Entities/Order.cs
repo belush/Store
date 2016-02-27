@@ -17,6 +17,6 @@ namespace Store.DAL.Entities
 
         public virtual Status Status { get; set; }
 
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
+        public virtual IEnumerable<OrderItem> OrderItems { get; set; }
     }
 }

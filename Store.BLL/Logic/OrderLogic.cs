@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Store.BLL.Interfaces;
 using Store.DAL.Entities;
 using Store.DAL.Interfaces;
@@ -19,6 +18,18 @@ namespace Store.BLL.Logic
         public IEnumerable<Order> GetAll()
         {
             return _repository.GetAll();
+        }
+
+        public void ProcessOrder(Cart cart, Delivery delivery)
+        {
+            var order = new Order();
+            order.OrderItems = cart.Lines;
+            order.DateCreation = DateTime.Now;
+            order.DateSale = DateTime.Now;
+            //order.User;
+            //order.Status;
+
+            _repository.Add(order);
         }
 
         public Order Get(int? id)

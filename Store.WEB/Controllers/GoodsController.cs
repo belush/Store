@@ -13,19 +13,18 @@ using Store.DAL.Repositories;
 using Store.WEB.Models;
 
 namespace Store.WEB.Controllers
-{   
+{
     public class GoodsController : Controller
     {
         private readonly ICategoryLogic _categoryLogic;
         private readonly IColorLogic _colorLogic;
         private readonly IGoodLogic _goodLogic;
 
-        public GoodsController()
+        public GoodsController(IGoodLogic goodLogic, IColorLogic colorLogic, ICategoryLogic categoryLogic)
         {
-            var context = new StoreContext();
-            _goodLogic = new GoodLogic(new GoodRepository(context));
-            _categoryLogic = new CategoryLogic(new CategoryRepository(context));
-            _colorLogic = new ColorLogic(new ColorRepository(context));
+            _goodLogic = goodLogic;
+            _categoryLogic = categoryLogic;
+            _colorLogic = colorLogic;
         }
 
         public ActionResult Index()
@@ -48,7 +47,6 @@ namespace Store.WEB.Controllers
                 }).ToList();
             colors.Add(new SelectListItem {Value = "0", Text = "Любая", Selected = true});
 
-
             ViewBag.Categories = categories;
             ViewBag.Colors = colors;
 
@@ -65,13 +63,7 @@ namespace Store.WEB.Controllers
             if (filter.CategoryId == 0)
             {
                 IEnumerable<Good> goodsTemp = _goodLogic.GetAll().ToList();
-
                 goodsResult = goodsResult.Intersect(goodsTemp);
-
-                //foreach (Good good in goodsTemp.Where(good => !goods.Contains(good)))
-                //{
-                //    goods.Add(good);
-                //}
             }
             else if (filter.CategoryId > 0)
             {
@@ -84,11 +76,6 @@ namespace Store.WEB.Controllers
             {
                 IEnumerable<Good> goodsTemp = _goodLogic.GetAll().ToList();
                 goodsResult = goodsResult.Intersect(goodsTemp);
-
-                //foreach (Good good in goodsTemp.Where(good => !goods.Contains(good)))
-                //{
-                //    goods.Add(good);
-                //}
             }
             else if (filter.ColorId > 0)
             {
@@ -107,14 +94,14 @@ namespace Store.WEB.Controllers
             if (filter.PriceFrom != 0)
             {
                 IEnumerable<Good> goodsTemp =
-                    _goodLogic.GetAll().ToList().Where(i => i.PriceSale.Value > filter.PriceFrom).ToList();
+                    _goodLogic.GetAll().ToList().Where(i => i.PriceSale > filter.PriceFrom).ToList();
                 goodsResult = goodsResult.Intersect(goodsTemp);
             }
 
             if (filter.PriceTo != 0)
             {
                 IEnumerable<Good> goodsTemp =
-                    _goodLogic.GetAll().ToList().Where(i => i.PriceSale.Value < filter.PriceTo).ToList();
+                    _goodLogic.GetAll().ToList().Where(i => i.PriceSale < filter.PriceTo).ToList();
                 goodsResult = goodsResult.Intersect(goodsTemp);
             }
 
@@ -140,8 +127,6 @@ namespace Store.WEB.Controllers
                 goodsResult = goodsResult.Intersect(goodsTemp);
             }
 
-            //var goodViews = Mapper.Map<IEnumerable<Good>, IEnumerable<GoodViewModel>>(goods);
-
             var goodViews = goodsResult.Select(good => new GoodViewModel
             {
                 Id = good.Id,
@@ -149,7 +134,7 @@ namespace Store.WEB.Controllers
                 Count = good.Count,
                 Category = good.Category.Name,
                 Color = good.Color.Name,
-                PriceSale = good.PriceSale.Value,
+                PriceSale = good.PriceSale,
                 Date = good.Date,
                 SizeDepth = good.SizeDepth,
                 SizeHeight = good.SizeHeight,
@@ -198,6 +183,10 @@ namespace Store.WEB.Controllers
             ViewBag.Categories = categories;
             ViewBag.Colors = colors;
 
+            //TODO: use view model!!!
+            //TODO: use helper in: goods out: selected list!!!
+
+
             return View();
         }
 
@@ -210,8 +199,32 @@ namespace Store.WEB.Controllers
             {
                 ///TODO: refactor and remove to certain class
 
-                var good = Mapper.Map<GoodCreateModel, Good>(goodCreateModel);
+                //Mapper.CreateMap<GoodCreateModel, Good>()
+                //  .ForMember("Category",
+                //      opt => opt.MapFrom(v => _categoryLogic.Get(v.CategoryId)))
+                //  .ForMember("Color",
+                //      opt => opt.MapFrom(v => _colorLogic.Get(v.ColorId)));
 
+
+                //var good = Mapper.Map<GoodCreateModel, Good>(goodCreateModel);
+
+                //TODO: use builder or Helper
+                var good = new Good
+                {
+                    Category = _categoryLogic.Get(goodCreateModel.CategoryId),
+                    Color = _colorLogic.Get(goodCreateModel.ColorId),
+                    Date = goodCreateModel.Date,
+                    Count = goodCreateModel.Count,
+                    Name = goodCreateModel.Name,
+                    Description = goodCreateModel.Description,
+                    PriceIncome = goodCreateModel.PriceIncome,
+                    PriceSale = goodCreateModel.PriceSale,
+                    SizeDepth = goodCreateModel.SizeDepth,
+                    SizeHeight = goodCreateModel.SizeHeight,
+                    SizeWidth = goodCreateModel.SizeWidth
+                };
+
+                //TODO:use DTO layer
 
                 if (upload != null && upload.ContentLength > 0)
                 {
@@ -251,23 +264,63 @@ namespace Store.WEB.Controllers
 
             var good = _goodLogic.Get(id);
 
+            //TODO: remove to BLL
+            var categories = _categoryLogic.GetAll().
+                Select(s => new SelectListItem
+                {
+                    Text = s.Name,
+                    Value = s.Id.ToString()
+                }).ToList();
+
+            //TODO: remove to BLL
+            var colors = _colorLogic.GetAll().
+                Select(s => new SelectListItem
+                {
+                    Text = s.Name,
+                    Value = s.Id.ToString()
+                }).ToList();
+
+            ViewBag.Categories = categories;
+            ViewBag.Colors = colors;
+
+            var goodCreateModel = Mapper.Map<Good, GoodCreateModel>(good);
+
             if (good == null)
             {
                 return HttpNotFound();
             }
-            return View(good);
+
+            return View(goodCreateModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Date,Description,Image,Count")] Good good)
+        public ActionResult Edit(GoodCreateModel goodCreateModel, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
+                Mapper.CreateMap<GoodCreateModel, Good>()
+                    .ForMember("Category",
+                        opt => opt.MapFrom(v => _categoryLogic.Get(v.CategoryId)))
+                    .ForMember("Color",
+                        opt => opt.MapFrom(v => _colorLogic.Get(v.ColorId)));
+
+                var good = Mapper.Map<GoodCreateModel, Good>(goodCreateModel);
+
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    good.ImageType = upload.ContentType;
+
+                    using (var reader = new BinaryReader(upload.InputStream))
+                    {
+                        good.Image = reader.ReadBytes(upload.ContentLength);
+                    }
+                }
+
                 _goodLogic.Edit(good);
                 return RedirectToAction("Index");
             }
-            return View(good);
+            return View(goodCreateModel);
         }
 
         public ActionResult Delete(int? id)

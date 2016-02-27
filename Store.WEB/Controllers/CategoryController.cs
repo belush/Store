@@ -1,16 +1,7 @@
-﻿    using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
+﻿using System.Net;
 using System.Web.Mvc;
-    using Store.BLL.Interfaces;
-    using Store.BLL.Logic;
-    using Store.DAL.Context;
+using Store.BLL.Interfaces;
 using Store.DAL.Entities;
-    using Store.DAL.Repositories;
 
 namespace Store.WEB.Controllers
 {
@@ -18,10 +9,9 @@ namespace Store.WEB.Controllers
     {
         private readonly ICategoryLogic _categoryLogic;
 
-        public CategoryController()
+        public CategoryController(ICategoryLogic categoryLogic)
         {
-            var context = new StoreContext();
-            _categoryLogic = new CategoryLogic(new CategoryRepository(context));
+            _categoryLogic = categoryLogic;
         }
 
         public ActionResult Index()
@@ -35,7 +25,7 @@ namespace Store.WEB.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = _categoryLogic.Get(id);
+            var category = _categoryLogic.Get(id);
             if (category == null)
             {
                 return HttpNotFound();
@@ -69,7 +59,7 @@ namespace Store.WEB.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Category category = _categoryLogic.Get(id);
+            var category = _categoryLogic.Get(id);
 
             if (category == null)
             {
@@ -98,7 +88,7 @@ namespace Store.WEB.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Category category = _categoryLogic.Get(id);
+            var category = _categoryLogic.Get(id);
 
             if (category == null)
             {
@@ -115,13 +105,14 @@ namespace Store.WEB.Controllers
             return RedirectToAction("Index");
         }
 
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
         //}
+        //    base.Dispose(disposing);
+        //    }
+        //        db.Dispose();
+        //    {
+        //    if (disposing)
+        //{
+
+        //protected override void Dispose(bool disposing)
     }
 }

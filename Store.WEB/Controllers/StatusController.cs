@@ -1,11 +1,7 @@
-﻿using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Web.Mvc;
 using Store.BLL.Interfaces;
-using Store.BLL.Logic;
-using Store.DAL.Context;
 using Store.DAL.Entities;
-using Store.DAL.Repositories;
 
 namespace Store.WEB.Controllers
 {
@@ -13,11 +9,9 @@ namespace Store.WEB.Controllers
     {
         private readonly IStatusLogic _statusLogic;
 
-        public StatusController()
+        public StatusController(IStatusLogic statusLogic)
         {
-            var context = new StoreContext();
-
-            _statusLogic = new StatusLogic(new StatusRepository(context));
+            _statusLogic = statusLogic;
         }
 
         public ActionResult Index()

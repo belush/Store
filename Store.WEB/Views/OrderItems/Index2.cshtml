@@ -1,0 +1,93 @@
+﻿@using Store.DAL.Entities
+@model Store.WEB.Models.CartViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div>
+    <h4>CartViewModel</h4>
+    <hr />
+
+    @*@using (Html.BeginForm("Create", "Order"))*@
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderItems.FirstOrDefault().Good.Image)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderItems.FirstOrDefault().Good.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderItems.FirstOrDefault().Number)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderItems.FirstOrDefault().Good.PriceSale)
+                </th>
+                <th>
+                    Total Price
+                    @*@Html.DisplayNameFor(model => model.OrderItems.FirstOrDefault().Good.Image)*@
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (OrderItem item in Model.OrderItems)
+            {
+                @Html.HiddenFor(modelItem => item.Good.Id)
+                <tr>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.Good.Image)*@
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Good.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Good.PriceSale.Value)
+                    </td>
+                    <td>
+                        @{
+                            decimal total = item.Good.PriceSale.Value * item.Number;
+                        }
+                        @total
+                        @*@Html.DisplayFor(modelItem => (item.Good.PriceSale.Value*item.Good.Count))*@
+                    </td>
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+                            }
+
+        </table>
+        <dl class="dl-horizontal">
+            <dt>
+                <h3>@Html.DisplayNameFor(model => model.Sum)</h3>
+            </dt>
+
+            <dd>
+                <h3>
+                    @Html.DisplayFor(model => model.Sum)
+                </h3>
+            </dd>
+        </dl>
+
+        <div class="form-group">
+            <div>
+                <input type="submit" value="Сделать заказ" class="btn btn-default" />
+            </div>
+        </div>
+
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+                            }
+</div>

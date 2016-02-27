@@ -1,12 +1,16 @@
-﻿using System;
-
-namespace Store.DAL.Entities
+﻿namespace Store.DAL.Entities
 {
     public class User
     {
         public int Id { get; set; }
 
-        public String Name { get; set; }
+        public string Name { get; set; }
+
+        public string Surname { get; set; }
+
+        public string Mobile { get; set; }
+
+        public string Email { get; set; }
 
         public bool IsBlocked { get; set; }
     }

@@ -10,6 +10,7 @@ namespace Store.BLL.Interfaces
     public interface IOrderLogic
     {
         IEnumerable<Order> GetAll();
+        void ProcessOrder(Cart cart, Delivery delivery);
         Order Get(int? id);
         //IEnumerable<Order> Find(Func<Order, bool> predicate);
         void Add(Order good);

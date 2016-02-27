@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using Store.BLL.Interfaces;
-using Store.BLL.Logic;
-using Store.DAL.Context;
 using Store.DAL.Entities;
-using Store.DAL.Repositories;
+using Store.WEB.Models;
 
 namespace Store.WEB.Controllers
 {
@@ -18,13 +14,11 @@ namespace Store.WEB.Controllers
         private readonly IOrderLogic _orderLogic;
         private readonly IStatusLogic _statusLogic;
 
-        public OrderController()
+        public OrderController(IOrderItemLogic orderItemLogic, IOrderLogic orderLogic, IStatusLogic statusLogic)
         {
-            var context = new StoreContext();
-
-            _orderLogic = new OrderLogic(new OrderRepository(context));
-            _orderItemLogic = new OrderItemLogic(new OrderItemRepository(context));
-            _statusLogic = new StatusLogic(new StatusRepository(context));
+            _orderLogic = orderLogic;
+            _orderItemLogic = orderItemLogic;
+            _statusLogic = statusLogic;
         }
 
         public ActionResult Index()
@@ -39,10 +33,21 @@ namespace Store.WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Sum,DateCreation,DateSale")] Order order)
+        public ActionResult Create(CartViewModel cartViewModel, List<OrderItem> orderItems)
         {
+            var order = new Order();
+
             if (ModelState.IsValid)
             {
+                order.OrderItems = cartViewModel.OrderItems;
+                order.DateCreation = cartViewModel.DateCreation;
+                order.DateSale = cartViewModel.DateSale;
+                order.Id = cartViewModel.Id;
+                order.Status = cartViewModel.Status;
+                order.User = cartViewModel.User;
+                order.Sum = cartViewModel.Sum;
+
+                _orderLogic.Add(order);
                 return RedirectToAction("Index");
             }
 
@@ -56,15 +61,15 @@ namespace Store.WEB.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            List<SelectListItem> statuses = _statusLogic.GetAll().
-                Select(s => new SelectListItem()
+            var statuses = _statusLogic.GetAll().
+                Select(s => new SelectListItem
                 {
                     Text = s.Name,
                     Value = s.Id.ToString()
                 }).ToList();
             ViewBag.Statuses = statuses;
 
-            Order order = _orderLogic.Get(id);
+            var order = _orderLogic.Get(id);
 
             if (order == null)
             {
@@ -78,16 +83,16 @@ namespace Store.WEB.Controllers
         {
             //TODO: refactor use modelview  
             //TODO: узнать стоит ли перенести этот код в BLL (using MVC in BLL)
-            List<SelectListItem> statuses = _statusLogic.GetAll().
-                Select(s => new SelectListItem()
+            var statuses = _statusLogic.GetAll().
+                Select(s => new SelectListItem
                 {
                     Text = s.Name,
                     Value = s.Id.ToString()
                 }).ToList();
             ViewBag.Statuses = statuses;
 
-            Order order = _orderLogic.Get(id);
-            int statusId = int.Parse(status);
+            var order = _orderLogic.Get(id);
+            var statusId = int.Parse(status);
             order.Status = _statusLogic.Get(statusId);
 
             _orderLogic.Edit(order);
@@ -99,15 +104,16 @@ namespace Store.WEB.Controllers
             return View(order);
         }
 
-        //    base.Dispose(disposing);
-        //    }
-        //        db.Dispose();
-        //    {
-        //    if (disposing)
-        //{
+        //}
 
 
         //protected override void Dispose(bool disposing)
-        //}
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+
+        //    base.Dispose(disposing);
     }
 }
