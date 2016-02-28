@@ -15,5 +15,6 @@ namespace Store.BLL.Interfaces
         void Add(Good good);
         void Delete(int id);
         void Edit(Good good);
+        IEnumerable<Good> Search(string search, FilterModel filter);
     }
 }

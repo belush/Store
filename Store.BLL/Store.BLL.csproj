@@ -61,6 +61,7 @@
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Infrastructure\OperationDetails.cs" />
     <Compile Include="Interfaces\ICategoryLogic.cs" />
+    <Compile Include="Interfaces\IClientLogic.cs" />
     <Compile Include="Interfaces\IColorLogic.cs" />
     <Compile Include="Interfaces\IGoodLogic.cs" />
     <Compile Include="Interfaces\IOrderItemLogic.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Interfaces\IStatusLogic.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Logic\CategoryLogic.cs" />
+    <Compile Include="Logic\ClientLogic.cs" />
     <Compile Include="Logic\ColorLogic.cs" />
     <Compile Include="Logic\GoodLogic.cs" />
     <Compile Include="Logic\OrderItemLogic.cs" />

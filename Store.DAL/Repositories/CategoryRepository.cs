@@ -47,7 +47,9 @@ namespace Store.DAL.Repositories
 
         public void Edit(Category entity)
         {
-            db.Entry(entity).State = EntityState.Modified;
+            Category category = db.Categories.FirstOrDefault(c => c.Id == entity.Id);
+            category.Id = entity.Id;
+            category.Name= entity.Name;
             db.SaveChanges();
         }
     }

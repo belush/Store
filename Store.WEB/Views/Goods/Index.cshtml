@@ -9,8 +9,7 @@
 @using (Ajax.BeginForm("GoodsSearch", new AjaxOptions()
 {
     UpdateTargetId = "result",
-    Url = Url.Action("GoodsSearch"),
-    OnSuccess = "ParseJson"
+    Url = Url.Action("GoodsSearch")
 }))
 {
     <div style="background: ;float: right;">
@@ -58,9 +57,13 @@
 }
 
 @*<div style="overflow:hidden;">*@
-<div>
-    <table id="result" class="table"></table>
-</div>
+<div style="overflow:hidden">
+    <div  id="result">
+        @Html.Action("GoodsSearch")
+    </div> 
+</divstyle="overflow:>
+
+ 
 
 @*<table class="table">
     <tr>
@@ -148,7 +151,7 @@
     }
 
 </table>*@
-<div style="overflow:hidden">
+@*<div style="overflow:hidden" id="">
     @foreach (var item in Model)
     {
         <div class="item">
@@ -164,13 +167,13 @@
             <div class="text">
                 <h4>@item.Name</h4>
                 @item.Description
-                <h4>@item.PriceSale.ToString("c") @Html.ActionLink("Купить", "AddToCart","Cart", new { goodId = item.Id }, null)</h4>
-                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id })
+                <h4>@item.PriceSale грн @Html.ActionLink("В корзину", "AddToCart","Cart", new { goodId = item.Id }, null)</h4>
+                @Html.ActionLink("Подробнее", "Details", "Goods", new { id = item.Id }, null)
             </div>
         </div>
     }
 
-</div>
+</div>*@
 
 <script type="text/javascript">
 

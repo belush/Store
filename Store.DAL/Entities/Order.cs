@@ -13,7 +13,9 @@ namespace Store.DAL.Entities
 
         public DateTime DateSale { get; set; }
 
-        public virtual User User { get; set; }
+        //public virtual User User { get; set; }
+
+        public virtual ClientProfile User { get; set; }
 
         public virtual Status Status { get; set; }
 

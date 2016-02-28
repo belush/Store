@@ -5,19 +5,18 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-<h4>id: @Model.Id</h4>
-<h4>Status: @Model.Status.Name</h4>
+<h2>Заказ</h2>
+<h4>№: @Model.Id</h4>
+<h4>Статус: @Model.Status.Name</h4>
 @using (Html.BeginForm())
 {
     @Html.DropDownList("status", ViewBag.Statuses as List<SelectListItem>)
-    <input type="submit" value="Сменить статус" />
+    <input type="submit" class="btn btn-default" value="Сменить статус" />
 }
-<h4>DateCreation: @Model.DateCreation</h4>
-<h4>DateSale: @Model.DateSale</h4>
-<h4>Sum: @Model.Sum</h4>
-<h4>User: @Model.User</h4>
-
+<h4>Дата продажи: @Model.DateCreation</h4>
+<h4>Дата оплаты: @Model.DateSale</h4>
+<h4>Сумма: @Model.Sum</h4>
+<h4>Клиент: @Model.User.Name</h4>
 
 <table class="table">
     <tr>
@@ -32,7 +31,7 @@
         </th>
     </tr>
 
-    @foreach (OrderItem item in Model.OrderItems)
+    @*@foreach (OrderItem item in Model.OrderItems)
     {
         <tr>
             <td>
@@ -43,10 +42,8 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Number)
-            </td>
-        
+            </td>        
         </tr>
-    }
-
+    }*@
 </table>
 

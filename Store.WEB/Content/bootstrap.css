@@ -4506,21 +4506,21 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse .navbar-brand {
-  color: #999999;
+  color: #FFFFFF;
 }
 
 .navbar-inverse .navbar-brand:hover,
-.navbar-inverse .navbar-brand:focus {
+.navbar-inverse .navbar-brand:focus {.navbar-inverse .navbar-brand
   color: #ffffff;
   background-color: transparent;
 }
 
 .navbar-inverse .navbar-text {
-  color: #999999;
+  color: #FFFFFF;
 }
 
 .navbar-inverse .navbar-nav > li > a {
-  color: #999999;
+  color: #FFFFFF;
 }
 
 .navbar-inverse .navbar-nav > li > a:hover,

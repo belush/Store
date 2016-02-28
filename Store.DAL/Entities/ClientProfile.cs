@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Store.DAL.Entities
@@ -10,12 +11,9 @@ namespace Store.DAL.Entities
         public string Id { get; set; }
 
         public string Name { get; set; }
+        public string Address { get; set; }
 
-        public string Surname { get; set; }
-
-        public string Mobile { get; set; }
-
-        public bool IsBlocked { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
 
         public virtual ApplicationUser ApplicationUser { get; set; }
     }

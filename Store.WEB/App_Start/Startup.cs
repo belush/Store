@@ -5,6 +5,8 @@ using Owin;
 using Store.BLL.Interfaces;
 using Store.BLL.Services;
 
+[assembly: OwinStartup(typeof(Store.WEB.App_Start.Startup))]
+
 namespace Store.WEB.App_Start
 {
     public class Startup
@@ -14,6 +16,9 @@ namespace Store.WEB.App_Start
 
         public void Configuration(IAppBuilder app)
         {
+            //from "public partial class Startup"
+            AutoMapperConfig.RegisterMappings();
+
             app.CreatePerOwinContext(CreateUserService);
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {

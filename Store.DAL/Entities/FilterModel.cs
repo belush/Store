@@ -1,5 +1,12 @@
-﻿namespace Store.WEB.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Store.DAL.Entities
 {
+    //todo: where it should be?
     public class FilterModel
     {
         public decimal PriceFrom { get; set; }

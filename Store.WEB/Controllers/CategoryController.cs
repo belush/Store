@@ -70,7 +70,7 @@ namespace Store.WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name")] Category category)
+        public ActionResult Edit(Category category)
         {
             if (ModelState.IsValid)
             {
@@ -105,14 +105,14 @@ namespace Store.WEB.Controllers
             return RedirectToAction("Index");
         }
 
-        //}
-        //    base.Dispose(disposing);
-        //    }
-        //        db.Dispose();
-        //    {
-        //    if (disposing)
-        //{
-
         //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+
+        //}
     }
 }

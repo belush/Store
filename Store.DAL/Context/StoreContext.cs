@@ -27,8 +27,8 @@ namespace Store.DAL.Context
         public DbSet<OrderItem> OrderItems { set; get; }
         public DbSet<Price> Prices { set; get; }
         public DbSet<Status> Statuses { set; get; }
-        //public DbSet<User> Users { set; get; }
 
         public DbSet<ClientProfile> ClientProfiles { get; set; }
+        //public DbSet<User> Users { set; get; }
     }
 }

@@ -28,6 +28,11 @@ namespace Store.WEB.Controllers
             return View();
         }
 
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginModel model)
@@ -57,7 +62,7 @@ namespace Store.WEB.Controllers
         public ActionResult Logout()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Goods");
         }
 
         public ActionResult Register()
@@ -76,9 +81,7 @@ namespace Store.WEB.Controllers
                 {
                     Email = model.Email,
                     Password = model.Password,
-                    Mobile = model.Mobile,
-                    Surname = model.Surname,
-                    IsBlocked = false,
+                    Address = model.Address,
                     Name = model.Name,
                     Role = "user"
                 };
@@ -97,10 +100,8 @@ namespace Store.WEB.Controllers
                 Email = "somemail@mail.ru",
                 UserName = "somemail@mail.ru",
                 Password = "ad46D_ewr3",
-                Name = "Семен",
-                IsBlocked = false,
-                Mobile = "0663387721",
-                Surname = "Горбунков",
+                Name = "Семен Семенович Горбунков",
+                Address = "ул. Спортивная, д.30, кв.75",
                 Role = "admin"
             }, new List<string> {"user", "admin"});
         }

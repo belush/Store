@@ -143,7 +143,12 @@ namespace Store.WEB.Controllers
                 //Image = good.Image
             }).ToList();
 
-            return Json(goodViews, JsonRequestBehavior.AllowGet);
+            //return Json(goodViews, JsonRequestBehavior.AllowGet);
+            if (goodViews.Count() > 0)
+            {
+                return PartialView(goodViews);
+            }
+            return PartialView("SearchNull");
         }
 
         public ActionResult Details(int? id)

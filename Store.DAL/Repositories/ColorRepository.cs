@@ -47,7 +47,10 @@ namespace Store.DAL.Repositories
 
         public void Edit(Color entity)
         {
-            db.Entry(entity).State = EntityState.Modified;
+            //db.Entry(entity).State = EntityState.Modified;
+            Color color = db.Colors.FirstOrDefault(c => c.Id == entity.Id);
+            color.Id = entity.Id;
+            color.Name = entity.Name;
             db.SaveChanges();
         }
     }

@@ -44,7 +44,8 @@ namespace Store.WEB.Controllers
                 order.DateSale = cartViewModel.DateSale;
                 order.Id = cartViewModel.Id;
                 order.Status = cartViewModel.Status;
-                order.User = cartViewModel.User;
+                //TODO: check
+                //order.User = cartViewModel.User;
                 order.Sum = cartViewModel.Sum;
 
                 _orderLogic.Add(order);

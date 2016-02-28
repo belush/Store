@@ -11,6 +11,7 @@ using Store.WEB.Models;
 
 namespace Store.WEB.Controllers
 {
+    //TODO: delete
     public class OrderItemsController : Controller
     {
         private readonly IGoodLogic _goodLogic;
@@ -55,7 +56,7 @@ namespace Store.WEB.Controllers
                 order.DateCreation = cart.DateCreation;
                 order.DateSale = cart.DateSale;
                 order.Status = _statusLogic.Get(1);
-                order.User = cart.User;
+                //order.User = cart.User;
                 order.Sum = cart.Sum;
 
                 _orderLogic.Add(order);

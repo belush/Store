@@ -197,6 +197,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\ColorController.cs" />
     <Compile Include="Controllers\GoodsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -207,11 +208,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AdminHelper.cs" />
     <Compile Include="Infrastructure\CartModelBinder.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CartIndexViewModel.cs" />
     <Compile Include="Models\CartViewModel.cs" />
-    <Compile Include="Models\FilterModel.cs" />
     <Compile Include="Models\GoodAdminView.cs" />
     <Compile Include="Models\GoodCreateModel.cs" />
     <Compile Include="Models\GoodViewModel.cs" />
@@ -270,7 +271,6 @@
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\LoginOld.cshtml" />
-    <Content Include="Views\Account\RegisterOld.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
@@ -328,6 +328,11 @@
     <Content Include="Views\Admin\SearchNull.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\SuccessRegister.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Goods\GoodsSearch.cshtml" />
+    <Content Include="Views\Goods\SearchNull.cshtml" />
+    <Content Include="Views\Client\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

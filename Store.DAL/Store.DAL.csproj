@@ -54,12 +54,12 @@
       <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Owin.Security.Cookies, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.OAuth, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -91,6 +91,7 @@
     <Compile Include="Entities\ClientProfile.cs" />
     <Compile Include="Entities\Color.cs" />
     <Compile Include="Entities\Delivery.cs" />
+    <Compile Include="Entities\FilterModel.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderItem.cs" />
     <Compile Include="Entities\Price.cs" />
@@ -101,40 +102,23 @@
     <Compile Include="Identity\ApplicationRoleManager.cs" />
     <Compile Include="Identity\ApplicationUserManager.cs" />
     <Compile Include="Interfaces\IClientManager.cs" />
+    <Compile Include="Interfaces\IClientRepository.cs" />
+    <Compile Include="Interfaces\IGoodRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
-    <Compile Include="Migrations\201602160404554_InitialCreate.cs" />
-    <Compile Include="Migrations\201602160404554_InitialCreate.Designer.cs">
-      <DependentUpon>201602160404554_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201602280909218_InitialCreate.cs" />
+    <Compile Include="Migrations\201602280909218_InitialCreate.Designer.cs">
+      <DependentUpon>201602280909218_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201602160514301_new.cs" />
-    <Compile Include="Migrations\201602160514301_new.Designer.cs">
-      <DependentUpon>201602160514301_new.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201602170144430_price.cs" />
-    <Compile Include="Migrations\201602170144430_price.Designer.cs">
-      <DependentUpon>201602170144430_price.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201602170156183_price2.cs" />
-    <Compile Include="Migrations\201602170156183_price2.Designer.cs">
-      <DependentUpon>201602170156183_price2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201602211737411_edit user.cs" />
-    <Compile Include="Migrations\201602211737411_edit user.Designer.cs">
-      <DependentUpon>201602211737411_edit user.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201602221318588_price1.cs" />
-    <Compile Include="Migrations\201602221318588_price1.Designer.cs">
-      <DependentUpon>201602221318588_price1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201602242203147_identity.cs" />
-    <Compile Include="Migrations\201602242203147_identity.Designer.cs">
-      <DependentUpon>201602242203147_identity.cs</DependentUpon>
+    <Compile Include="Migrations\201602281052241_iden.cs" />
+    <Compile Include="Migrations\201602281052241_iden.Designer.cs">
+      <DependentUpon>201602281052241_iden.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
     <Compile Include="Repositories\ClientManager.cs" />
+    <Compile Include="Repositories\ClientRepository.cs" />
     <Compile Include="Repositories\ColorRepository.cs" />
     <Compile Include="Repositories\GoodRepository.cs" />
     <Compile Include="Repositories\IdentityUnitOfWork.cs" />
@@ -148,26 +132,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201602160404554_InitialCreate.resx">
-      <DependentUpon>201602160404554_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602280909218_InitialCreate.resx">
+      <DependentUpon>201602280909218_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602160514301_new.resx">
-      <DependentUpon>201602160514301_new.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602170144430_price.resx">
-      <DependentUpon>201602170144430_price.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602170156183_price2.resx">
-      <DependentUpon>201602170156183_price2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602211737411_edit user.resx">
-      <DependentUpon>201602211737411_edit user.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602221318588_price1.resx">
-      <DependentUpon>201602221318588_price1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602242203147_identity.resx">
-      <DependentUpon>201602242203147_identity.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602281052241_iden.resx">
+      <DependentUpon>201602281052241_iden.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
