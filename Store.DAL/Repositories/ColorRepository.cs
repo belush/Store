@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using Store.DAL.Context;
 using Store.DAL.Entities;
@@ -16,7 +15,7 @@ namespace Store.DAL.Repositories
 
         public IEnumerable<Color> GetAll()
         {
-            return db.Colors;
+            return db.Colors.Where(c => c.IsDeleted == false);
         }
 
         public Color Get(int id)
@@ -40,7 +39,7 @@ namespace Store.DAL.Repositories
             var color = db.Colors.Find(id);
             if (color != null)
             {
-                db.Colors.Remove(color);
+                color.IsDeleted = true;
                 db.SaveChanges();
             }
         }
@@ -48,7 +47,7 @@ namespace Store.DAL.Repositories
         public void Edit(Color entity)
         {
             //db.Entry(entity).State = EntityState.Modified;
-            Color color = db.Colors.FirstOrDefault(c => c.Id == entity.Id);
+            var color = db.Colors.FirstOrDefault(c => c.Id == entity.Id);
             color.Id = entity.Id;
             color.Name = entity.Name;
             db.SaveChanges();

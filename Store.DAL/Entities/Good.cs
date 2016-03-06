@@ -40,6 +40,8 @@ namespace Store.DAL.Entities
         [Display(Name = "Продажа")]
         public decimal PriceSale { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public virtual Category Category { get; set; }
 
         public virtual Color Color { get; set; }

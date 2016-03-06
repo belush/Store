@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Store.DAL.Entities.Order>
+﻿@model IEnumerable<Store.WEB.Models.OrderViewModels.OrderViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -6,8 +6,11 @@
 
 <h2>Заказы</h2>
 
-<table class="table">
+<table class="table  table-hover">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Sum)
         </th>
@@ -18,16 +21,19 @@
             @Html.DisplayNameFor(model => model.DateSale)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.User.Name)
+            @Html.DisplayNameFor(model => model.User)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Status.Name)
+            @Html.DisplayNameFor(model => model.Status)
         </th>
-        <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
+@foreach (var item in Model)
+{
+    <tr style="cursor:pointer" onclick="location.href = '@(Url.Action("Details", "Order", new { id = item.Id}))'">
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Sum)
         </td>
@@ -38,15 +44,18 @@
             @Html.DisplayFor(modelItem => item.DateSale)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.User.Name)
+            @Html.DisplayFor(modelItem => item.User)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Status.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Подробнее", "Details", new { id=item.Id })
+            @Html.DisplayFor(modelItem => item.Status)
         </td>
     </tr>
 }
 
 </table>
+
+@section Scripts {
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}

@@ -5,45 +5,98 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Заказ</h2>
-<h4>№: @Model.Id</h4>
-<h4>Статус: @Model.Status.Name</h4>
-@using (Html.BeginForm())
-{
-    @Html.DropDownList("status", ViewBag.Statuses as List<SelectListItem>)
-    <input type="submit" class="btn btn-default" value="Сменить статус" />
-}
-<h4>Дата продажи: @Model.DateCreation</h4>
-<h4>Дата оплаты: @Model.DateSale</h4>
-<h4>Сумма: @Model.Sum</h4>
-<h4>Клиент: @Model.User.Name</h4>
+<div style="float: left;" id="result">
+    @Html.Action("ChangeStatus");
+</div>
+
+<div style="float: right;">
+    <h2>Информация о доставке</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery.Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery.Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery.City)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery.Street)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery.Street)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery.House)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery.House)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery.Flat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery.Flat)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery.Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery.Phone)
+        </dd>
+    </dl>
+</div>
 
 <table class="table">
     <tr>
         <th>
-            @*@Html.DisplayNameFor(model => model.Good.Name)*@
+            @Html.DisplayNameFor(model => model.OrderItems.FirstOrDefault().Good.Name)
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.PriceSale)*@
+            @Html.DisplayNameFor(model => model.OrderItems.FirstOrDefault().PriceSale)
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.Number)*@
+            @Html.DisplayNameFor(model => model.OrderItems.FirstOrDefault().Number)
         </th>
     </tr>
 
-    @*@foreach (OrderItem item in Model.OrderItems)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Good.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PriceSale)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Number)
-            </td>        
-        </tr>
-    }*@
+    @foreach (OrderItem item in ViewBag.CartInfo as IEnumerable<OrderItem>)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Good.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PriceSale)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                </td>
+            </tr>
+        }
 </table>
 
+@section Scripts {
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}

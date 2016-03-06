@@ -2,8 +2,6 @@
 
 @{
     ViewBag.Title = "Index";
-
-
 }
 
 @using (Ajax.BeginForm("GoodsSearch", new AjaxOptions()
@@ -12,39 +10,46 @@
     Url = Url.Action("GoodsSearch")
 }))
 {
-    <div style="background: ;float: right;">
-        <div style="background: ; float: right;">
-            <h4>Фильтр</h4>
-            Цена:
-            от
-            <input class="priceInput" type="text" name="PriceFrom" />
-            до
-            <input class="priceInput" type="text" name="PriceTo" />
+    <div style="background: ; float: ;" class="input-group">
+        <fieldset style="background: ; float: right; ">
+            <legend>Фильтр</legend>
+            <div style="background: ; float: right; ">
 
-            Цвет:
-            @Html.DropDownList("ColorId", ViewBag.Colors as List<SelectListItem>)
-            <br />
-            <br />
+                Цена:
+                @Html.Editor("PriceFrom", new { htmlAttributes = new { @class = "form-control", style = "width: 80px; ", placeholder = "от" } })
+                @Html.Editor("PriceTo", new { htmlAttributes = new { @class = "form-control", style = "width: 80px; ", placeholder = "до" } })
+                
+                Цвет:
+                @Html.DropDownList("ColorId", ViewBag.Colors as List<SelectListItem>, new { @class = "btn btn-default dropdown-toggle" })
+                <br />
+                <br />
 
-            Размер:
-            <input class="sizeInput" type="text" name="SizeH" />
-            <input class="sizeInput" type="text" name="SizeW" />
-            <input class="sizeInput" type="text" name="SizeD" />
+                Размер:
+                от
+                <input class="sizeInput form-control" style="width: 50px" type="text" placeholder="Выс." name="SizeHFrom" />
+                <input class="sizeInput form-control" style="width: 50px" type="text" placeholder="Шир." name="SizeWFrom" />
+                <input class="sizeInput form-control" style="width: 50px" type="text" placeholder="Глуб." name="SizeDFrom" />
+                до
+                <input class="sizeInput form-control" style="width: 50px" type="text" placeholder="Выс." name="SizeHTo" />
+                <input class="sizeInput form-control" style="width: 50px" type="text" placeholder="Шир." name="SizeWTo" />
+                <input class="sizeInput form-control" style="width: 50px" type="text" placeholder="Глуб." name="SizeDTo" />
 
-            Категория:
-            @Html.DropDownList("CategoryId", ViewBag.Categories as List<SelectListItem>)
-            <input class = "btn btn-primary"  style="float: right" type="submit" value="Фильтровать" />
-        </div>
+                Категория:
+                @Html.DropDownList("CategoryId", ViewBag.Categories as List<SelectListItem>, new { @class = "btn btn-default dropdown-toggle" })
+                <input class="btn btn-primary" style="float: right" type="submit" value="Фильтровать" />
+            </div>
 
-        <div style="float: right; overflow: hidden;">
-            <input type="text" name="search" />
-            <input class = "btn btn-primary" type="submit" value="Поиск" />
-        </div>
-      
+            <div class="input-group" style="padding:5px">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">Поиск</button>
+                </span>
+                <input type="text" class="form-control" name="search" placeholder="Введите запрос...">
+            </div>
+
+        </fieldset>
     </div>
 }
-
-<h2>Товары</h2>
+<hr />
 
 @using (Ajax.BeginForm("GoodsSearch", new AjaxOptions()
 {
@@ -56,124 +61,119 @@
 
 }
 
-@*<div style="overflow:hidden;">*@
-<div style="overflow:hidden">
-    <div  id="result">
-        @Html.Action("GoodsSearch")
-    </div> 
-</divstyle="overflow:>
-
- 
+<div style="clear: both;" id="result">
+    @Html.Action("GoodsSearch")
+</div>
 
 @*<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Image)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-   
-        <th>
-            @Html.DisplayNameFor(model => model.Count)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SizeWidth)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SizeHeight)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SizeDepth)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PriceSale)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Color)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @if (item.Image != null)
-                {
-                    <div class="pull-left" style="margin-right: 10px">
-                        <img class="img-thumbnail" width="75" height="75"
-                             src="@Url.Action("GetImage", "Goods", new { item.Id })" />
-                    </div>
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Count)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SizeWidth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SizeHeight)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SizeDepth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PriceSale)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Color)
-            </td>
-            <td>
-                @Html.ActionLink("В корзину", "Create", "OrderItems", new { id = item.Id }, null) |
-                @Html.ActionLink("Подробнее", "Details", new { id = item.Id })
-                <br />
-                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Count)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SizeWidth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SizeHeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SizeDepth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PriceSale)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>*@
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @if (item.Image != null)
+                    {
+                        <div class="pull-left" style="margin-right: 10px">
+                            <img class="img-thumbnail" width="75" height="75"
+                                 src="@Url.Action("GetImage", "Goods", new { item.Id })" />
+                        </div>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Count)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SizeWidth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SizeHeight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SizeDepth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PriceSale)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Color)
+                </td>
+                <td>
+                    @Html.ActionLink("В корзину", "Create", "OrderItems", new { id = item.Id }, null) |
+                    @Html.ActionLink("Подробнее", "Details", new { id = item.Id })
+                    <br />
+                    @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>*@
 @*<div style="overflow:hidden" id="">
-    @foreach (var item in Model)
-    {
-        <div class="item">
-            <div class="img">
-                @if (item.Image != null)
-                {
-                    <div class="pull-left" style="margin-right: 10px">
-                        <img class="img-thumbnail" width="110" height="110"
-                             src="@Url.Action("GetImage", "Goods", new {item.Id})" />
-                    </div>
-                }
+        @foreach (var item in Model)
+        {
+            <div class="item">
+                <div class="img">
+                    @if (item.Image != null)
+                    {
+                        <div class="pull-left" style="margin-right: 10px">
+                            <img class="img-thumbnail" width="110" height="110"
+                                 src="@Url.Action("GetImage", "Goods", new {item.Id})" />
+                        </div>
+                    }
+                </div>
+                <div class="text">
+                    <h4>@item.Name</h4>
+                    @item.Description
+                    <h4>@item.PriceSale грн @Html.ActionLink("В корзину", "AddToCart","Cart", new { goodId = item.Id }, null)</h4>
+                    @Html.ActionLink("Подробнее", "Details", "Goods", new { id = item.Id }, null)
+                </div>
             </div>
-            <div class="text">
-                <h4>@item.Name</h4>
-                @item.Description
-                <h4>@item.PriceSale грн @Html.ActionLink("В корзину", "AddToCart","Cart", new { goodId = item.Id }, null)</h4>
-                @Html.ActionLink("Подробнее", "Details", "Goods", new { id = item.Id }, null)
-            </div>
-        </div>
-    }
+        }
 
-</div>*@
+    </div>*@
 
 <script type="text/javascript">
 
@@ -225,9 +225,9 @@
                                     }
                     <h4>@Model.Price.ToString("c")</h4>
                 </div>*@
-                }
-                }
             }
+        }
+    }
 </script>
 
 @section Scripts {

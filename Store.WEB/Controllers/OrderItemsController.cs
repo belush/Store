@@ -65,24 +65,6 @@ namespace Store.WEB.Controllers
 
             return View();
         }
-        //[HttpPost]
-        //public ActionResult Index(int? a)
-        //{
-        //    var order = new Order();
-        //    ///TODO: refactor 1
-        //    var status = _statusLogic.Get(1);
-        //    ///TODO: refactor LINQ
-        //    var orderItems = _orderItemLogic.GetByOrderNull();
-
-        //    order.OrderItems = orderItems.ToList();
-        //    order.DateCreation = DateTime.Now;
-        //    order.DateSale = DateTime.Now;
-        //    order.Status = status;
-
-        //    _orderLogic.Add(order);
-
-        //    return RedirectToAction("Index", "Order");
-        //}
 
         public ActionResult Details(int? id)
         {

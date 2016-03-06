@@ -5,6 +5,7 @@ using Store.DAL.Entities;
 
 namespace Store.WEB.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class StatusController : Controller
     {
         private readonly IStatusLogic _statusLogic;
@@ -90,14 +91,14 @@ namespace Store.WEB.Controllers
             return RedirectToAction("Index");
         }
 
-        //}
-        //    base.Dispose(disposing);
-        //    }
-        //        db.Dispose();
-        //    {
-        //    if (disposing)
-        //{
-
         //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+
+        //}
     }
 }

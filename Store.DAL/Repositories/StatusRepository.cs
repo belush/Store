@@ -18,7 +18,7 @@ namespace Store.DAL.Repositories
 
         public IEnumerable<Status> GetAll()
         {
-            return db.Statuses;
+            return db.Statuses.Where(s => s.IsDeleted == false);
         }
 
         public Status Get(int id)
@@ -42,7 +42,7 @@ namespace Store.DAL.Repositories
             var status = db.Statuses.Find(id);
             if (status != null)
             {
-                db.Statuses.Remove(status);
+                status.IsDeleted = true;
                 db.SaveChanges();
             }
         }

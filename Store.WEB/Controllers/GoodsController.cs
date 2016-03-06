@@ -6,10 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using Store.BLL.Interfaces;
-using Store.BLL.Logic;
-using Store.DAL.Context;
 using Store.DAL.Entities;
-using Store.DAL.Repositories;
 using Store.WEB.Models;
 
 namespace Store.WEB.Controllers
@@ -36,7 +33,7 @@ namespace Store.WEB.Controllers
                     Text = s.Name,
                     Value = s.Id.ToString()
                 }).ToList();
-            categories.Add(new SelectListItem {Value = "0", Text = "Любой", Selected = true});
+            categories.Add(new SelectListItem {Value = "0", Text = "Любая", Selected = true});
 
             //TODO: remove to BLL
             var colors = _colorLogic.GetAll().
@@ -45,7 +42,7 @@ namespace Store.WEB.Controllers
                     Text = s.Name,
                     Value = s.Id.ToString()
                 }).ToList();
-            colors.Add(new SelectListItem {Value = "0", Text = "Любая", Selected = true});
+            colors.Add(new SelectListItem {Value = "0", Text = "Любой", Selected = true});
 
             ViewBag.Categories = categories;
             ViewBag.Colors = colors;
@@ -58,92 +55,10 @@ namespace Store.WEB.Controllers
 
         public ActionResult GoodsSearch(string search, FilterModel filter)
         {
-            var goods = _goodLogic.GetAll().ToList();
-            IEnumerable<Good> goodsResult = goods;
-            if (filter.CategoryId == 0)
-            {
-                IEnumerable<Good> goodsTemp = _goodLogic.GetAll().ToList();
-                goodsResult = goodsResult.Intersect(goodsTemp);
-            }
-            else if (filter.CategoryId > 0)
-            {
-                IEnumerable<Good> goodsTemp =
-                    _goodLogic.GetAll().ToList().Where(i => i.Category.Id == filter.CategoryId).ToList();
-                goodsResult = goodsResult.Intersect(goodsTemp);
-            }
+            var goods = _goodLogic.Search(search, filter);
 
-            if (filter.ColorId == 0)
-            {
-                IEnumerable<Good> goodsTemp = _goodLogic.GetAll().ToList();
-                goodsResult = goodsResult.Intersect(goodsTemp);
-            }
-            else if (filter.ColorId > 0)
-            {
-                IEnumerable<Good> goodsTemp =
-                    _goodLogic.GetAll().ToList().Where(i => i.Color.Id == filter.ColorId).ToList();
-                goodsResult = goodsResult.Intersect(goodsTemp);
-            }
+            var goodViews = Mapper.Map<IEnumerable<Good>, IEnumerable<GoodViewModel>>(goods);
 
-            if (!string.IsNullOrEmpty(search))
-            {
-                IEnumerable<Good> goodsTemp =
-                    _goodLogic.GetAll().ToList().Where(i => i.Name.ToLower().StartsWith(search.ToLower())).ToList();
-                goodsResult = goodsResult.Intersect(goodsTemp);
-            }
-
-            if (filter.PriceFrom != 0)
-            {
-                IEnumerable<Good> goodsTemp =
-                    _goodLogic.GetAll().ToList().Where(i => i.PriceSale > filter.PriceFrom).ToList();
-                goodsResult = goodsResult.Intersect(goodsTemp);
-            }
-
-            if (filter.PriceTo != 0)
-            {
-                IEnumerable<Good> goodsTemp =
-                    _goodLogic.GetAll().ToList().Where(i => i.PriceSale < filter.PriceTo).ToList();
-                goodsResult = goodsResult.Intersect(goodsTemp);
-            }
-
-
-            if (filter.SizeD != 0)
-            {
-                IEnumerable<Good> goodsTemp =
-                    _goodLogic.GetAll().ToList().Where(i => i.SizeDepth == filter.SizeD).ToList();
-                goodsResult = goodsResult.Intersect(goodsTemp);
-            }
-
-            if (filter.SizeH != 0)
-            {
-                IEnumerable<Good> goodsTemp =
-                    _goodLogic.GetAll().ToList().Where(i => i.SizeHeight == filter.SizeH).ToList();
-                goodsResult = goodsResult.Intersect(goodsTemp);
-            }
-
-            if (filter.SizeW != 0)
-            {
-                IEnumerable<Good> goodsTemp =
-                    _goodLogic.GetAll().ToList().Where(i => i.SizeWidth == filter.SizeW).ToList();
-                goodsResult = goodsResult.Intersect(goodsTemp);
-            }
-
-            var goodViews = goodsResult.Select(good => new GoodViewModel
-            {
-                Id = good.Id,
-                Name = good.Name,
-                Count = good.Count,
-                Category = good.Category.Name,
-                Color = good.Color.Name,
-                PriceSale = good.PriceSale,
-                Date = good.Date,
-                SizeDepth = good.SizeDepth,
-                SizeHeight = good.SizeHeight,
-                SizeWidth = good.SizeWidth,
-                Description = good.Description
-                //Image = good.Image
-            }).ToList();
-
-            //return Json(goodViews, JsonRequestBehavior.AllowGet);
             if (goodViews.Count() > 0)
             {
                 return PartialView(goodViews);

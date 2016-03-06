@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using Store.DAL.Context;
 using Store.DAL.Entities;
@@ -16,7 +15,7 @@ namespace Store.DAL.Repositories
 
         public IEnumerable<Category> GetAll()
         {
-            return db.Categories;
+            return db.Categories.Where(c => c.IsDeleted == false);
         }
 
         public Category Get(int id)
@@ -40,16 +39,16 @@ namespace Store.DAL.Repositories
             var category = db.Categories.Find(id);
             if (category != null)
             {
-                db.Categories.Remove(category);
+                category.IsDeleted = true;
                 db.SaveChanges();
             }
         }
 
         public void Edit(Category entity)
         {
-            Category category = db.Categories.FirstOrDefault(c => c.Id == entity.Id);
+            var category = db.Categories.FirstOrDefault(c => c.Id == entity.Id);
             category.Id = entity.Id;
-            category.Name= entity.Name;
+            category.Name = entity.Name;
             db.SaveChanges();
         }
     }

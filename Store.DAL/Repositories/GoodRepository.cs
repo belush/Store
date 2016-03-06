@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using Store.DAL.Context;
 using Store.DAL.Entities;
@@ -16,7 +15,7 @@ namespace Store.DAL.Repositories
 
         public IEnumerable<Good> GetAll()
         {
-            return db.Goods;
+            return db.Goods.Where(g => g.IsDeleted == false);
         }
 
         public Good Get(int id)
@@ -31,7 +30,7 @@ namespace Store.DAL.Repositories
 
         public void Add(Good entity)
         {
-            entity.Date=DateTime.Now;
+            entity.Date = DateTime.Now;
             db.Goods.Add(entity);
             db.SaveChanges();
         }
@@ -41,7 +40,7 @@ namespace Store.DAL.Repositories
             var good = db.Goods.Find(id);
             if (good != null)
             {
-                db.Goods.Remove(good);
+                good.IsDeleted = true;
                 db.SaveChanges();
             }
         }
@@ -49,7 +48,7 @@ namespace Store.DAL.Repositories
         public void Edit(Good entity)
         {
             //db.Entry(entity).State = EntityState.Modified;
-            Good good = db.Goods.FirstOrDefault(g => g.Id == entity.Id);
+            var good = db.Goods.FirstOrDefault(g => g.Id == entity.Id);
             good.Id = entity.Id;
             good.Name = entity.Name;
             good.Description = entity.Description;
@@ -120,24 +119,46 @@ namespace Store.DAL.Repositories
             }
 
 
-            if (filter.SizeD != 0)
+            if (filter.SizeDFrom != 0)
             {
                 IEnumerable<Good> goodsTemp =
-                    GetAll().ToList().Where(i => i.SizeDepth == filter.SizeD).ToList();
+                    GetAll().ToList().Where(i => i.SizeDepth >= filter.SizeDFrom).ToList();
                 goodsResult = goodsResult.Intersect(goodsTemp);
             }
 
-            if (filter.SizeH != 0)
+            if (filter.SizeHFrom != 0)
             {
                 IEnumerable<Good> goodsTemp =
-                    GetAll().ToList().Where(i => i.SizeHeight == filter.SizeH).ToList();
+                    GetAll().ToList().Where(i => i.SizeHeight >= filter.SizeHFrom).ToList();
                 goodsResult = goodsResult.Intersect(goodsTemp);
             }
 
-            if (filter.SizeW != 0)
+            if (filter.SizeWFrom != 0)
             {
                 IEnumerable<Good> goodsTemp =
-                    GetAll().ToList().Where(i => i.SizeWidth == filter.SizeW).ToList();
+                    GetAll().ToList().Where(i => i.SizeWidth >= filter.SizeWFrom).ToList();
+                goodsResult = goodsResult.Intersect(goodsTemp);
+            }
+
+            //
+            if (filter.SizeDTo != 0)
+            {
+                IEnumerable<Good> goodsTemp =
+                    GetAll().ToList().Where(i => i.SizeDepth <= filter.SizeDTo).ToList();
+                goodsResult = goodsResult.Intersect(goodsTemp);
+            }
+
+            if (filter.SizeHTo != 0)
+            {
+                IEnumerable<Good> goodsTemp =
+                    GetAll().ToList().Where(i => i.SizeHeight <= filter.SizeHTo).ToList();
+                goodsResult = goodsResult.Intersect(goodsTemp);
+            }
+
+            if (filter.SizeWTo != 0)
+            {
+                IEnumerable<Good> goodsTemp =
+                    GetAll().ToList().Where(i => i.SizeWidth <= filter.SizeWTo).ToList();
                 goodsResult = goodsResult.Intersect(goodsTemp);
             }
 

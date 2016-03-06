@@ -2,12 +2,15 @@
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using AutoMapper;
 using Store.BLL.Interfaces;
 using Store.DAL.Entities;
 using Store.WEB.Models;
+using Store.WEB.Models.OrderViewModels;
 
 namespace Store.WEB.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class OrderController : Controller
     {
         private readonly IOrderItemLogic _orderItemLogic;
@@ -23,7 +26,9 @@ namespace Store.WEB.Controllers
 
         public ActionResult Index()
         {
-            return View(_orderLogic.GetAll().ToList());
+            var orders = _orderLogic.GetAll().OrderByDescending(o => o.Id).ToList();
+            var orderViews = Mapper.Map<IEnumerable<Order>, IEnumerable<OrderViewModel>>(orders);
+            return View(orderViews);
         }
 
         public ActionResult Create()
@@ -68,7 +73,12 @@ namespace Store.WEB.Controllers
                     Text = s.Name,
                     Value = s.Id.ToString()
                 }).ToList();
+
             ViewBag.Statuses = statuses;
+
+            //todo: refactor
+            var items = _orderItemLogic.GetAll().Where(o => o.Order.Id == id);
+            ViewBag.CartInfo = items;
 
             var order = _orderLogic.Get(id);
 
@@ -79,8 +89,8 @@ namespace Store.WEB.Controllers
             return View(order);
         }
 
-        [HttpPost]
-        public ActionResult Details(int? id, string status)
+
+        public ActionResult ChangeStatus(int? id, string status)
         {
             //TODO: refactor use modelview  
             //TODO: узнать стоит ли перенести этот код в BLL (using MVC in BLL)
@@ -93,28 +103,21 @@ namespace Store.WEB.Controllers
             ViewBag.Statuses = statuses;
 
             var order = _orderLogic.Get(id);
-            var statusId = int.Parse(status);
-            order.Status = _statusLogic.Get(statusId);
 
-            _orderLogic.Edit(order);
+            if (status != null)
+            {
+                var statusId = int.Parse(status);
+                order.Status = _statusLogic.Get(statusId);
+
+                _orderLogic.Edit(order);
+            }
 
             if (order == null)
             {
                 return HttpNotFound();
             }
-            return View(order);
+            //return View(order);
+            return PartialView(order);
         }
-
-        //}
-
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-
-        //    base.Dispose(disposing);
     }
 }

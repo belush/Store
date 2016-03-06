@@ -38,3 +38,7 @@ C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.Migrations.InitialCreate.resources
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.csproj.GenerateResource.Cache
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.Migrations.iden.resources
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.Migrations.deleted.resources
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.Migrations.isBloked.resources
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.Migrations.delivery2.resources
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.DAL\obj\Debug\Store.DAL.Migrations.house.resources

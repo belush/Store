@@ -62,12 +62,12 @@
       <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Owin.Security.OAuth, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -114,6 +114,22 @@
     <Compile Include="Migrations\201602281052241_iden.Designer.cs">
       <DependentUpon>201602281052241_iden.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603011502246_deleted.cs" />
+    <Compile Include="Migrations\201603011502246_deleted.Designer.cs">
+      <DependentUpon>201603011502246_deleted.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603011839319_isBloked.cs" />
+    <Compile Include="Migrations\201603011839319_isBloked.Designer.cs">
+      <DependentUpon>201603011839319_isBloked.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603012054411_delivery2.cs" />
+    <Compile Include="Migrations\201603012054411_delivery2.Designer.cs">
+      <DependentUpon>201603012054411_delivery2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603062228113_house.cs" />
+    <Compile Include="Migrations\201603062228113_house.Designer.cs">
+      <DependentUpon>201603062228113_house.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
@@ -137,6 +153,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201602281052241_iden.resx">
       <DependentUpon>201602281052241_iden.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603011502246_deleted.resx">
+      <DependentUpon>201603011502246_deleted.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603011839319_isBloked.resx">
+      <DependentUpon>201603011839319_isBloked.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603012054411_delivery2.resx">
+      <DependentUpon>201603012054411_delivery2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603062228113_house.resx">
+      <DependentUpon>201603062228113_house.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

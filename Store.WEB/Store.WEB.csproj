@@ -199,6 +199,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\ColorController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GoodsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -211,15 +212,16 @@
     <Compile Include="Helpers\AdminHelper.cs" />
     <Compile Include="Infrastructure\CartModelBinder.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\CartIndexViewModel.cs" />
-    <Compile Include="Models\CartViewModel.cs" />
-    <Compile Include="Models\GoodAdminView.cs" />
-    <Compile Include="Models\GoodCreateModel.cs" />
-    <Compile Include="Models\GoodViewModel.cs" />
+    <Compile Include="Models\CartViewModels\CartIndexViewModel.cs" />
+    <Compile Include="Models\CartViewModels\CartViewModel.cs" />
+    <Compile Include="Models\GoodViewModels\GoodAdminView.cs" />
+    <Compile Include="Models\GoodViewModels\GoodCreateModel.cs" />
+    <Compile Include="Models\GoodViewModels\GoodViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\OrderItemViewModel.cs" />
+    <Compile Include="Models\OrderViewModels\OrderViewModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -283,7 +285,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Goods\Create2.cshtml" />
     <Content Include="Views\Goods\Delete.cshtml" />
     <Content Include="Views\Goods\Details.cshtml" />
     <Content Include="Views\OrderItems\Create2.cshtml" />
@@ -292,10 +293,7 @@
     <Content Include="Views\OrderItems\Edit.cshtml" />
     <Content Include="Views\OrderItems\Index4.cshtml" />
     <Content Include="Views\Order\Create.cshtml" />
-    <Content Include="Views\Order\Delete.cshtml" />
     <Content Include="Views\Order\Details.cshtml" />
-    <Content Include="Views\Order\Edit.cshtml" />
-    <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Status\Create.cshtml" />
     <Content Include="Views\Status\Delete.cshtml" />
     <Content Include="Views\Status\Details.cshtml" />
@@ -333,6 +331,13 @@
     <Content Include="Views\Goods\GoodsSearch.cshtml" />
     <Content Include="Views\Goods\SearchNull.cshtml" />
     <Content Include="Views\Client\Index.cshtml" />
+    <Content Include="Views\Cart\GoodIsOver.cshtml" />
+    <Content Include="Views\Client\ChangeStatus.cshtml" />
+    <Content Include="Views\Order\ChangeStatus.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\BadRequest.cshtml" />
+    <Content Include="Views\Shared\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

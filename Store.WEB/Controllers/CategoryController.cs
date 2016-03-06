@@ -5,6 +5,7 @@ using Store.DAL.Entities;
 
 namespace Store.WEB.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryLogic _categoryLogic;

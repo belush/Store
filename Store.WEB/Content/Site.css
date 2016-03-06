@@ -42,8 +42,23 @@ textarea {
 .item {
     width: 200px;
     float: left;
+    background: ;
+    border: 0px solid lightblue;
+}
+
+.item  :hover{ 
+    background:#b0e0e6 ;
 }
 
 .item .img {
     overflow: hidden;
+}
+
+.inputDescription {
+    width: 30px;
+    height: 100px;
+}
+
+.filterPriceInput {
+     width: 80px;
 }

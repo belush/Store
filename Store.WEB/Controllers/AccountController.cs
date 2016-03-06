@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Store.BLL.DTO;
 using Store.BLL.Interfaces;
+using Store.DAL.Entities;
 using Store.WEB.Models;
 
 namespace Store.WEB.Controllers
@@ -13,6 +16,13 @@ namespace Store.WEB.Controllers
     //[Authorize]
     public class AccountController : Controller
     {
+        private readonly IOrderLogic _orderLogic;
+
+        public AccountController(IOrderLogic orderLogic)
+        {
+            _orderLogic = orderLogic;
+        }
+
         private IUserService UserService
         {
             get { return HttpContext.GetOwinContext().GetUserManager<IUserService>(); }
@@ -28,9 +38,25 @@ namespace Store.WEB.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult Index()
         {
-            return View();
+            var id = User.Identity.GetUserId();
+
+            List<Order> orders = new List<Order>();
+
+            foreach (var order in _orderLogic.GetAll().ToList())
+            {
+                if (order.User!=null)
+                {
+                    if (order.User.Id == id)
+                    {
+                        orders.Add(order);
+                    }
+                }
+            }
+
+            return View(orders);
         }
 
         [HttpPost]
@@ -83,7 +109,9 @@ namespace Store.WEB.Controllers
                     Password = model.Password,
                     Address = model.Address,
                     Name = model.Name,
-                    Role = "user"
+                    Role = "user",
+                    //todo: edited
+                    IsBlocked = false
                 };
                 var operationDetails = await UserService.Create(userDto);
                 if (operationDetails.Succedeed)
