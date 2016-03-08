@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Web.Mvc;
+using Store.BLL.DTO;
 using Store.BLL.Interfaces;
-using Store.DAL.Entities;
 
 namespace Store.WEB.Controllers
 {
@@ -20,20 +20,6 @@ namespace Store.WEB.Controllers
             return View(_categoryLogic.GetAll());
         }
 
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var category = _categoryLogic.Get(id);
-            if (category == null)
-            {
-                return HttpNotFound();
-            }
-            return View(category);
-        }
-
         public ActionResult Create()
         {
             return View();
@@ -41,16 +27,16 @@ namespace Store.WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] Category category)
+        public ActionResult Create([Bind(Include = "Id,Name")] CategoryDTO categoryDto)
         {
             if (ModelState.IsValid)
             {
-                _categoryLogic.Add(category);
+                _categoryLogic.Add(categoryDto);
 
                 return RedirectToAction("Index");
             }
 
-            return View(category);
+            return View(categoryDto);
         }
 
         public ActionResult Edit(int? id)
@@ -71,15 +57,15 @@ namespace Store.WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Category category)
+        public ActionResult Edit(CategoryDTO categoryDto)
         {
             if (ModelState.IsValid)
             {
-                _categoryLogic.Edit(category);
+                _categoryLogic.Edit(categoryDto);
 
                 return RedirectToAction("Index");
             }
-            return View(category);
+            return View(categoryDto);
         }
 
         public ActionResult Delete(int? id)
@@ -105,15 +91,5 @@ namespace Store.WEB.Controllers
             _categoryLogic.Delete(id);
             return RedirectToAction("Index");
         }
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-
-        //}
     }
 }

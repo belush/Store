@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoMapper;
+using Store.BLL.DTO;
 using Store.BLL.Interfaces;
 using Store.DAL.Entities;
 using Store.DAL.Interfaces;
@@ -15,34 +17,43 @@ namespace Store.BLL.Logic
             _repository = repository;
         }
 
-        public IEnumerable<Status> GetAll()
+        public IEnumerable<StatusDTO> GetAll()
         {
-            return _repository.GetAll();
+            var statuses = _repository.GetAll();
+            var statusesDto = Mapper.Map<IEnumerable<Status>, IEnumerable<StatusDTO>>(statuses);
+
+            return statusesDto;
         }
 
-        public void Add(Status status)
+        public void Edit(StatusDTO statusDto)
         {
+            var status = _repository.Get(statusDto.Id);
+            status.Name = statusDto.Name;
+            _repository.Edit(status);
+        }
+
+        public void Add(StatusDTO statusDto)
+        {
+           
+            var status = Mapper.Map<StatusDTO, Status>(statusDto);
             _repository.Add(status);
         }
 
-        public Status Get(int? id)
+        public void Delete(int id)
+        {
+            _repository.Delete(id);
+        }
+
+        public StatusDTO Get(int? id)
         {
             if (id == null)
             {
                 throw new ArgumentException("id null");
             }
 
-            return _repository.Get(id.Value);
-        }
-
-        public void Edit(Status status)
-        {
-            _repository.Edit(status);
-        }
-
-        public void Delete(int id)
-        {
-            _repository.Delete(id);
+            var status = _repository.Get(id.Value);
+            var statusDto = Mapper.Map<Status, StatusDTO>(status);
+            return statusDto;
         }
     }
 }

@@ -49,7 +49,9 @@ namespace Store.DAL.Repositories
 
         public void Edit(Status entity)
         {
-            db.Entry(entity).State = EntityState.Modified;
+            var status = db.Statuses.FirstOrDefault(s => s.Id == entity.Id);
+            status.Id = entity.Id;
+            status.Name = entity.Name;
             db.SaveChanges();
         }
     }

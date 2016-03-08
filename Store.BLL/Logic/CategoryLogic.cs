@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using AutoMapper;
+using Store.BLL.DTO;
 using Store.BLL.Interfaces;
 using Store.DAL.Entities;
 using Store.DAL.Interfaces;
@@ -15,28 +17,27 @@ namespace Store.BLL.Logic
             _repository = repository;
         }
 
-
-        public IEnumerable<Category> GetAll()
+        public IEnumerable<CategoryDTO> GetAll()
         {
-            return _repository.GetAll();
+            var categories = _repository.GetAll();
+            var categoriesDto = Mapper.Map<IEnumerable<Category>, IEnumerable<CategoryDTO>>(categories);
+            return categoriesDto;
         }
 
-        public Category Get(int? id)
+        public CategoryDTO Get(int? id)
         {
             if (id == null)
             {
                 throw new ArgumentException("id null");
             }
-            return _repository.Get(id.Value);
+            var category = _repository.Get(id.Value);
+            var categoryDto = CategoryToCategoryDto(category);
+            return categoryDto;
         }
 
-        public IEnumerable<Category> Find(Func<Category, bool> predicate)
+        public void Add(CategoryDTO categoryDto)
         {
-            return _repository.Find(predicate);
-        }
-
-        public void Add(Category category)
-        {
+            var category = CategoryDtoToCategory(categoryDto);
             _repository.Add(category);
         }
 
@@ -45,9 +46,20 @@ namespace Store.BLL.Logic
             _repository.Delete(id);
         }
 
-        public void Edit(Category category)
+        public void Edit(CategoryDTO categoryDto)
         {
+            var category = CategoryDtoToCategory(categoryDto);
             _repository.Edit(category);
+        }
+
+        public Category CategoryDtoToCategory(CategoryDTO categoryDto)
+        {
+            return Mapper.Map<CategoryDTO, Category>(categoryDto);
+        }
+
+        public CategoryDTO CategoryToCategoryDto(Category category)
+        {
+            return Mapper.Map<Category, CategoryDTO>(category);
         }
     }
 }

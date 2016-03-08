@@ -44,8 +44,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=4.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.4.2.0\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -221,6 +221,7 @@
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\OrderItemViewModel.cs" />
+    <Compile Include="Models\OrderViewModels\OrderDetailsModel.cs" />
     <Compile Include="Models\OrderViewModels\OrderViewModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -296,12 +297,9 @@
     <Content Include="Views\Order\Details.cshtml" />
     <Content Include="Views\Status\Create.cshtml" />
     <Content Include="Views\Status\Delete.cshtml" />
-    <Content Include="Views\Status\Details.cshtml" />
     <Content Include="Views\Status\Edit.cshtml" />
-    <Content Include="Views\Status\Index.cshtml" />
     <Content Include="Views\Category\Create.cshtml" />
     <Content Include="Views\Category\Delete.cshtml" />
-    <Content Include="Views\Category\Details.cshtml" />
     <Content Include="Views\Category\Edit.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Goods\Create.cshtml" />
@@ -338,6 +336,8 @@
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Error\BadRequest.cshtml" />
     <Content Include="Views\Shared\NotFound.cshtml" />
+    <Content Include="Views\Status\Index.cshtml" />
+    <Content Include="Views\Order\ChangeStatus - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

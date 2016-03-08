@@ -1,5 +1,5 @@
-﻿@using Store.DAL.Entities
-@model  Store.DAL.Entities.Order
+﻿@using Store.BLL.DTO
+@model  Store.BLL.DTO.OrderDTO
 
 @{
     ViewBag.Title = "Details";
@@ -79,7 +79,7 @@
         </th>
     </tr>
 
-    @foreach (OrderItem item in ViewBag.CartInfo as IEnumerable<OrderItem>)
+    @foreach (OrderItemDTO item in ViewBag.CartInfo as IEnumerable<OrderItemDTO>)
         {
             <tr>
                 <td>

@@ -8,7 +8,7 @@ using Store.DAL.Interfaces;
 
 namespace Store.DAL.Repositories
 {
-    public class OrderItemRepository : Repository, IRepository<OrderItem>
+    public class OrderItemRepository : Repository, IOrderItemRepository
     {
         public OrderItemRepository(StoreContext storeContext) : base(storeContext)
         {
@@ -17,11 +17,6 @@ namespace Store.DAL.Repositories
         public IEnumerable<OrderItem> GetAll()
         {
             return db.OrderItems.ToList();
-        }
-
-        public IEnumerable<OrderItem> GetAllWithOrder()
-        {
-            return db.OrderItems.Where(oi=>oi.Order!=null).ToList();
         }
 
         public OrderItem Get(int id)
@@ -54,6 +49,30 @@ namespace Store.DAL.Repositories
         {
             db.Entry(orderItem).State = EntityState.Modified;
             db.SaveChanges();
+        }
+
+        public IEnumerable<OrderItem> GetByOrderNull()
+        {
+            var orderItems = db.OrderItems.Where(o => o.Order == null).ToList();
+            return orderItems;
+        }
+
+        public IEnumerable<OrderItem> GetItemsOfOrder(int? id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var orderItems = db.OrderItems.ToList();
+            var orderItems2 = orderItems.Where(o => o.Order.Id == id).ToList();
+
+            return orderItems2;
+        }
+
+        public IEnumerable<OrderItem> GetAllWithOrder()
+        {
+            return db.OrderItems.Where(oi => oi.Order != null).ToList();
         }
     }
 }

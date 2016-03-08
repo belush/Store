@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Web.Mvc;
+using Store.BLL.DTO;
 using Store.BLL.Interfaces;
-using Store.DAL.Entities;
 
 namespace Store.WEB.Controllers
 {
@@ -27,16 +27,16 @@ namespace Store.WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] Status status)
+        public ActionResult Create([Bind(Include = "Id,Name")] StatusDTO statusDto)
         {
             if (ModelState.IsValid)
             {
-                _statusLogic.Add(status);
+                _statusLogic.Add(statusDto);
 
                 return RedirectToAction("Index");
             }
 
-            return View(status);
+            return View(statusDto);
         }
 
         public ActionResult Edit(int? id)
@@ -57,14 +57,14 @@ namespace Store.WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name")] Status status)
+        public ActionResult Edit([Bind(Include = "Id,Name")] StatusDTO statusDto)
         {
             if (ModelState.IsValid)
             {
-                _statusLogic.Edit(status);
+                _statusLogic.Edit(statusDto);
                 return RedirectToAction("Index");
             }
-            return View(status);
+            return View(statusDto);
         }
 
         public ActionResult Delete(int? id)
@@ -90,15 +90,5 @@ namespace Store.WEB.Controllers
             _statusLogic.Delete(id);
             return RedirectToAction("Index");
         }
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-
-        //}
     }
 }

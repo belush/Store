@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
+using Store.BLL.DTO;
 using Store.BLL.Interfaces;
 using Store.DAL.Entities;
 using Store.DAL.Interfaces;
@@ -9,39 +11,43 @@ namespace Store.BLL.Logic
 {
     public class OrderItemLogic : IOrderItemLogic
     {
-        private readonly IRepository<OrderItem> _repository;
+        private readonly IOrderItemRepository _repository;
 
-        public OrderItemLogic(IRepository<OrderItem> repository)
+        public OrderItemLogic(IOrderItemRepository repository)
         {
             _repository = repository;
         }
 
-        public IEnumerable<OrderItem> GetAll()
+        public IEnumerable<OrderItemDTO> GetAll()
         {
-            return _repository.GetAll();
+            var orderItems = _repository.GetAll().ToList();
+            var orderItemsDto = Mapper.Map<IEnumerable<OrderItem>, IEnumerable<OrderItemDTO>>(orderItems);
+
+            return orderItemsDto;
         }
 
-        public IEnumerable<OrderItem> GetByOrderNull()
+        public IEnumerable<OrderItemDTO> GetByOrderNull()
         {
-            return _repository.GetAll().Where(o => o.Order == null).ToList();
+            var orderItems = _repository.GetByOrderNull();
+            var orderItemsDto = Mapper.Map<IEnumerable<OrderItem>, IEnumerable<OrderItemDTO>>(orderItems);
+            return orderItemsDto;
         }
 
-        public OrderItem Get(int? id)
+        public OrderItemDTO Get(int? id)
         {
             if (id == null)
             {
                 throw new ArgumentException("id null");
             }
-            return _repository.Get(id.Value);
+            var orderItem = _repository.Get(id.Value);
+            var orderItemDto = Mapper.Map<OrderItem, OrderItemDTO>(orderItem);
+
+            return orderItemDto;
         }
 
-        public IEnumerable<OrderItem> Find(Func<OrderItem, bool> predicate)
+        public void Add(OrderItemDTO orderItemDto)
         {
-            return _repository.Find(predicate);
-        }
-
-        public void Add(OrderItem orderItem)
-        {
+            var orderItem = Mapper.Map<OrderItemDTO, OrderItem>(orderItemDto);
             _repository.Add(orderItem);
         }
 
@@ -50,20 +56,22 @@ namespace Store.BLL.Logic
             _repository.Delete(id);
         }
 
-        public void Edit(OrderItem orderItem)
+        public void Edit(OrderItemDTO orderItemDto)
         {
+            var orderItem = Mapper.Map<OrderItemDTO, OrderItem>(orderItemDto);
             _repository.Edit(orderItem);
         }
 
-        public IEnumerable<OrderItem> GetItemsOfOrder(int? id)
+        public IEnumerable<OrderItemDTO> GetItemsOfOrder(int? id)
         {
             if (id == null)
             {
                 throw new ArgumentNullException();
             }
-            IEnumerable<OrderItem> orderItems = _repository.GetAll().ToList();
-            IEnumerable<OrderItem> orderItems2 = orderItems.Where(o => o.Order.Id == id).ToList();
-            return orderItems2;
+            var orderItems = _repository.GetItemsOfOrder(id);
+
+            var orderItemsDto = Mapper.Map<IEnumerable<OrderItem>, IEnumerable<OrderItemDTO>>(orderItems);
+            return orderItemsDto;
         }
     }
 }

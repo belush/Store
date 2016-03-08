@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
+using Store.BLL.DTO;
 using Store.DAL.Entities;
 
 namespace Store.BLL.Interfaces
 {
     public interface IStatusLogic
     {
-        IEnumerable<Status> GetAll();
-        void Add(Status status);
-        Status Get(int? id);
-        void Edit(Status status);
+        StatusDTO Get(int? id);
         void Delete(int id);
-        //IEnumerable<Status> Find(Func<Status, bool> predicate);
+        IEnumerable<StatusDTO> GetAll();
+        void Edit(StatusDTO statusDto);
+        void Add(StatusDTO statusDto);
     }
 }

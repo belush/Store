@@ -131,8 +131,9 @@ namespace Store.WEB.Controllers
                 //TODO: use builder or Helper
                 var good = new Good
                 {
-                    Category = _categoryLogic.Get(goodCreateModel.CategoryId),
-                    Color = _colorLogic.Get(goodCreateModel.ColorId),
+                    //TODO: refactor DTO!!
+                    //Category = _categoryLogic.Get(goodCreateModel.CategoryId),
+                    //Color = _colorLogic.Get(goodCreateModel.ColorId),
                     Date = goodCreateModel.Date,
                     Count = goodCreateModel.Count,
                     Name = goodCreateModel.Name,

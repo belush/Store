@@ -1,44 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using AutoMapper;
+using Store.BLL.DTO;
 using Store.BLL.Interfaces;
 using Store.DAL.Entities;
 using Store.DAL.Interfaces;
+//using Store.DAL.Entities;
 
 namespace Store.BLL.Logic
 {
     public class GoodLogic : IGoodLogic
     {
-        //private readonly IRepository<Good> _repository;
         private readonly IGoodRepository _repository;
 
-        //public GoodLogic(IRepository<Good> repository)
         public GoodLogic(IGoodRepository repository)
         {
             _repository = repository;
         }
 
-        public IEnumerable<Good> GetAll()
+        public IEnumerable<GoodDTO> GetAll()
         {
-            return _repository.GetAll();
+            var goods = _repository.GetAll();
+            var goodsDto = Mapper.Map<IEnumerable<Good>, IEnumerable<GoodDTO>>(goods);
+
+            return goodsDto;
         }
 
-        public Good Get(int? id)
+        public GoodDTO Get(int? id)
         {
             if (id == null)
             {
                 throw new ArgumentException("id null");
             }
-            return _repository.Get(id.Value);
+
+            var good = _repository.Get(id.Value);
+            var goodDto = Mapper.Map<Good, GoodDTO>(good);
+
+            return goodDto;
         }
 
-        public IEnumerable<Good> Find(Func<Good, bool> predicate)
+        public void Add(GoodDTO goodDto)
         {
-            return _repository.Find(predicate);
-        }
+            var good = Mapper.Map<GoodDTO, Good>(goodDto);
 
-        public void Add(Good good)
-        {
             _repository.Add(good);
         }
 
@@ -47,14 +51,18 @@ namespace Store.BLL.Logic
             _repository.Delete(id);
         }
 
-        public void Edit(Good good)
+        public void Edit(GoodDTO goodDto)
         {
+            var good = Mapper.Map<GoodDTO, Good>(goodDto);
             _repository.Edit(good);
         }
 
-        public IEnumerable<Good> Search(string search, FilterModel filter)
+        public IEnumerable<GoodDTO> Search(string search, FilterModelDTO filterDto)
         {
-            return _repository.Search(search, filter);
+            var filter = Mapper.Map<FilterModelDTO, FilterModel>(filterDto);
+            var goods = _repository.Search(search, filter);
+            var goodsDto = Mapper.Map<IEnumerable<Good>, IEnumerable<GoodDTO>>(goods);
+            return goodsDto;
         }
     }
 }

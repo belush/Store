@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
+using Store.BLL.DTO;
 using Store.BLL.Interfaces;
 using Store.DAL.Entities;
 using Store.DAL.Interfaces;
@@ -9,23 +11,26 @@ namespace Store.BLL.Logic
 {
     public class OrderLogic : IOrderLogic
     {
-        private readonly IRepository<Order> _orderLogic;
-        private readonly IStatusLogic _statusLogic;
         private readonly IOrderItemLogic _orderItemLogic;
+        private readonly IRepository<Order> _repository;
+        private readonly IStatusLogic _statusLogic;
 
-        public OrderLogic(IRepository<Order> orderLogic, IStatusLogic statusLogic, IOrderItemLogic orderItemLogic)
+        public OrderLogic(IRepository<Order> repository, IStatusLogic statusLogic, IOrderItemLogic orderItemLogic)
         {
-            _orderLogic = orderLogic;
+            _repository = repository;
             _statusLogic = statusLogic;
             _orderItemLogic = orderItemLogic;
         }
 
-        public IEnumerable<Order> GetAll()
+        public IEnumerable<OrderDTO> GetAll()
         {
-            return _orderLogic.GetAll();
+            var orders = _repository.GetAll();
+            var ordersDTO = Mapper.Map<IEnumerable<Order>, IEnumerable<OrderDTO>>(orders);
+
+            return ordersDTO;
         }
 
-        public void ProcessOrder(Cart cart, Delivery delivery)
+        public void ProcessOrder(Cart cart, DeliveryDTO deliveryDto)
         {
             var order = new Order();
             order.OrderItems = cart.Lines;
@@ -34,10 +39,10 @@ namespace Store.BLL.Logic
             //order.User
             //order.Status;
 
-            _orderLogic.Add(order);
+            _repository.Add(order);
         }
 
-        public void ProcessOrder(Cart cart, Delivery delivery, ClientProfile client)
+        public void ProcessOrder(Cart cart, DeliveryDTO deliveryDto, UserDTO userDto)
         {
             foreach (var item in cart.Lines)
             {
@@ -45,52 +50,74 @@ namespace Store.BLL.Logic
             }
 
             var items = cart.Lines;
-            foreach (var item in items)
+            var orderItemsDto = Mapper.Map<IEnumerable<OrderItem>, IEnumerable<OrderItemDTO>>(items);
+
+
+            foreach (var item in orderItemsDto)
             {
+                //todo: refactor DTO!!
                 _orderItemLogic.Add(item);
             }
 
-            var order = new Order();
-            order.Status = _statusLogic.Get(1);
-           
-            order.DateCreation = DateTime.Now;
-            order.DateSale = DateTime.Now;
-            order.User = client;
-            order.Sum = cart.Lines.Sum(x => x.PriceSale*x.Number);
-            order.Delivery = delivery;
+            var orderDto = new OrderDTO();
 
-            _orderLogic.Add(order);
+            orderDto.Status = _statusLogic.Get(1);
 
-            //todo: refactor
-            foreach (var item in items)
+            orderDto.DateCreation = DateTime.Now;
+            orderDto.DateSale = DateTime.Now;
+            orderDto.User = userDto;
+            orderDto.Sum = cart.Lines.Sum(x => x.PriceSale * x.Number);
+            orderDto.Delivery = deliveryDto;
+
+            var order = Mapper.Map<OrderDTO, Order>(orderDto);
+
+            //todo: refactor DTO !!!!!!
+            //var order = new Order();
+
+            //order.Status = _statusLogic.Get(1);
+
+            //order.DateCreation = DateTime.Now;
+            //order.DateSale = DateTime.Now;
+            //order.User = userDto;
+            //order.Sum = cart.Lines.Sum(x => x.PriceSale * x.Number);
+            //order.Delivery = deliveryDto;
+
+            _repository.Add(order);
+
+            ////todo: refactor
+            foreach (var item in orderItemsDto)
             {
-                item.Order = order;
+                item.Order = orderDto;
                 _orderItemLogic.Edit(item);
             }
             order.OrderItems = items;
 
-            _orderLogic.Edit(order);
-            
+            _repository.Edit(order);
         }
 
-        public Order Get(int? id)
+        public OrderDTO Get(int? id)
         {
             if (id == null)
             {
                 throw new ArgumentException("id null");
             }
 
-            return _orderLogic.Get(id.Value);
+            var order = _repository.Get(id.Value);
+            var orderDTO = Mapper.Map<Order, OrderDTO>(order);
+
+            return orderDTO;
         }
 
-        public void Add(Order order)
+        public void Add(OrderDTO orderDto)
         {
-            _orderLogic.Add(order);
+            var order = Mapper.Map<OrderDTO, Order>(orderDto);
+            _repository.Add(order);
         }
 
-        public void Edit(Order order)
+        public void Edit(OrderDTO orderDto)
         {
-            _orderLogic.Edit(order);
+            var order = Mapper.Map<OrderDTO, Order>(orderDto);
+            _repository.Edit(order);
         }
     }
 }

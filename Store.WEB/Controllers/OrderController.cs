@@ -3,8 +3,8 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using AutoMapper;
+using Store.BLL.DTO;
 using Store.BLL.Interfaces;
-using Store.DAL.Entities;
 using Store.WEB.Models;
 using Store.WEB.Models.OrderViewModels;
 
@@ -27,7 +27,7 @@ namespace Store.WEB.Controllers
         public ActionResult Index()
         {
             var orders = _orderLogic.GetAll().OrderByDescending(o => o.Id).ToList();
-            var orderViews = Mapper.Map<IEnumerable<Order>, IEnumerable<OrderViewModel>>(orders);
+            var orderViews = Mapper.Map<IEnumerable<OrderDTO>, IEnumerable<OrderViewModel>>(orders);
             return View(orderViews);
         }
 
@@ -38,26 +38,28 @@ namespace Store.WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CartViewModel cartViewModel, List<OrderItem> orderItems)
+        public ActionResult Create(CartViewModel cartViewModel, List<OrderItemDTO> orderItemsDto)
         {
-            var order = new Order();
+            //var order = new Order();
+            var orderDto = new OrderDTO();
 
             if (ModelState.IsValid)
             {
-                order.OrderItems = cartViewModel.OrderItems;
-                order.DateCreation = cartViewModel.DateCreation;
-                order.DateSale = cartViewModel.DateSale;
-                order.Id = cartViewModel.Id;
-                order.Status = cartViewModel.Status;
+                //todo: refactor DTO
+                orderDto.OrderItems = cartViewModel.OrderItems;
+                orderDto.DateCreation = cartViewModel.DateCreation;
+                orderDto.DateSale = cartViewModel.DateSale;
+                orderDto.Id = cartViewModel.Id;
+                orderDto.Status = cartViewModel.Status;
                 //TODO: check
                 //order.User = cartViewModel.User;
-                order.Sum = cartViewModel.Sum;
+                orderDto.Sum = cartViewModel.Sum;
 
-                _orderLogic.Add(order);
+                _orderLogic.Add(orderDto);
                 return RedirectToAction("Index");
             }
 
-            return View(order);
+            return View(orderDto);
         }
 
         public ActionResult Details(int? id)
@@ -76,8 +78,7 @@ namespace Store.WEB.Controllers
 
             ViewBag.Statuses = statuses;
 
-            //todo: refactor
-            var items = _orderItemLogic.GetAll().Where(o => o.Order.Id == id);
+            var items = _orderItemLogic.GetItemsOfOrder(id);
             ViewBag.CartInfo = items;
 
             var order = _orderLogic.Get(id);
@@ -104,9 +105,21 @@ namespace Store.WEB.Controllers
 
             var order = _orderLogic.Get(id);
 
+            var orderDetails = new OrderDetailsModel
+            {
+                Id = order.Id,
+                DateCreation = order.DateCreation,
+                DateSale = order.DateSale.ToShortDateString(),
+                Status = order.Status.Name,
+                User = order.User.Name,
+                Sum = order.Sum
+            };
+            orderDetails.Statuses = statuses;
+
             if (status != null)
             {
                 var statusId = int.Parse(status);
+
                 order.Status = _statusLogic.Get(statusId);
 
                 _orderLogic.Edit(order);
@@ -117,6 +130,7 @@ namespace Store.WEB.Controllers
                 return HttpNotFound();
             }
             //return View(order);
+            return PartialView(orderDetails);
             return PartialView(order);
         }
     }

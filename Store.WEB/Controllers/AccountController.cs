@@ -8,7 +8,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Store.BLL.DTO;
 using Store.BLL.Interfaces;
-using Store.DAL.Entities;
 using Store.WEB.Models;
 
 namespace Store.WEB.Controllers
@@ -43,11 +42,11 @@ namespace Store.WEB.Controllers
         {
             var id = User.Identity.GetUserId();
 
-            List<Order> orders = new List<Order>();
+            var orders = new List<OrderDTO>();
 
             foreach (var order in _orderLogic.GetAll().ToList())
             {
-                if (order.User!=null)
+                if (order.User != null)
                 {
                     if (order.User.Id == id)
                     {

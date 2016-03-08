@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Store.DAL.Entities;
+﻿using System.Collections.Generic;
+using Store.BLL.DTO;
+
+//using Store.DAL.Entities;
 
 namespace Store.BLL.Interfaces
 {
     public interface IGoodLogic
     {
-        IEnumerable<Good> GetAll();
-        Good Get(int? id);
-        IEnumerable<Good> Find(Func<Good, bool> predicate);
-        void Add(Good good);
+        IEnumerable<GoodDTO> GetAll();
+        GoodDTO Get(int? id);
+        void Add(GoodDTO good);
         void Delete(int id);
-        void Edit(Good good);
-        IEnumerable<Good> Search(string search, FilterModel filter);
+        void Edit(GoodDTO good);
+        IEnumerable<GoodDTO> Search(string search, FilterModelDTO filter);
     }
 }

@@ -104,6 +104,7 @@
     <Compile Include="Interfaces\IClientManager.cs" />
     <Compile Include="Interfaces\IClientRepository.cs" />
     <Compile Include="Interfaces\IGoodRepository.cs" />
+    <Compile Include="Interfaces\IOrderItemRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Migrations\201602280909218_InitialCreate.cs" />
