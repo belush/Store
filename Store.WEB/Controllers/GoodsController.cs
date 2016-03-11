@@ -8,7 +8,6 @@ using Store.BLL.DTO;
 using Store.BLL.Interfaces;
 using Store.WEB.Helpers;
 using Store.WEB.Models;
-using Store.WEB.Models.GoodViewModels;
 
 namespace Store.WEB.Controllers
 {
@@ -42,7 +41,7 @@ namespace Store.WEB.Controllers
             return View(goodViews);
         }
 
-        public ActionResult GoodsSearch(string search, FilterModelDTO filterDto, int page=1)
+        public ActionResult GoodsSearch(string search, FilterModelDTO filterDto, int page = 1)
         {
             var goods = _goodLogic.Search(search, filterDto);
 

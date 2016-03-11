@@ -21,66 +21,62 @@
 
     @foreach (var item in Model)
     {
-        @Html.HiddenFor(modelItem => item.IsBlocked)
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Discount)
-            </td>
-            <td>
-               
-            </td>
-            <td>
-                @Ajax.ActionLink("Сменить", "ChangeDiscount", new { id = item.Id, discount=5 },
-                          new AjaxOptions()
-                          {
-                              UpdateTargetId = "result",
-                              Url = Url.Action("ChangeDiscount", "Client", new { id = item.Id, discount = 5 }),
-                          }, new { @class = "btn btn-default" })
-
-            </td>
-                @*@using (Html.BeginForm("ChangeDiscount", "Client", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
+        using (Html.BeginForm())
+        {
+            @Html.HiddenFor(modelItem => item.IsBlocked)
+            <tr>
                 <td>
-                 
-                    @Html.EditorFor(modelItem => item.Discount)
-                    @Html.HiddenFor(modelItem => item.Id)                   
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
-                <th>
-                    <input type="submit" class="btn btn-primary" value="Сменить" />
-                </th>
-            }*@
-<td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    <div class="discountText">
+                        @Html.DisplayFor(modelItem => item.Discount) %
+                    </div>                  
+                </td>
+                <td>
+                    @*@Html.EditorFor(modelItem => item.Discount)*@
+                    <input type="text" value="@item.Discount" name="Discount" class="form-control discountInput"/>
+                    <input type="hidden" value="@item.Id" name="id"/>
+                </td>
+                <td>
+                    @*@Ajax.ActionLink("Сменить", "ChangeDiscount", new {id = item.Id},
+                        new AjaxOptions()
+                        {
+                            UpdateTargetId = "result",
+                            Url = Url.Action("ChangeDiscount", "Client", new {id = item.Id}),
+                        }, new {@class = "btn btn-default"})*@
+                    <input type="submit" value="Сменить" class="btn btn-default"/>
+                </td>
 
-                @if (item.IsBlocked == false)
-                {
-                    @Ajax.ActionLink("Блокировать", "ChangeStatus", new { id = item.Id },
-                          new AjaxOptions()
-                          {
-                              UpdateTargetId = "result",
-                              Url = Url.Action("ChangeStatus", "Client", new { id = item.Id }),
-                          }, new { @class = "btn btn-default" })
+                <td>
+                    @if (item.IsBlocked == false)
+                    {
+                        @Ajax.ActionLink("Блокировать", "ChangeStatus", new {id = item.Id},
+                            new AjaxOptions()
+                            {
+                                UpdateTargetId = "result",
+                                Url = Url.Action("ChangeStatus", "Client", new {id = item.Id}),
+                            }, new {@class = "btn btn-default"})
 
-                }
-                else
-                {
-                    @Ajax.ActionLink("Разблокировать", "ChangeStatus", new { id = item.Id },
-                         new AjaxOptions()
-                         {
-                             UpdateTargetId = "result",
-                             Url = Url.Action("ChangeStatus", "Client", new { id = item.Id }),
-                         }, new { @class = "btn btn-primary" })
-                }
-            </td>
-        </tr>
+                    }
+                    else
+                    {
+                        @Ajax.ActionLink("Разблокировать", "ChangeStatus", new {id = item.Id},
+                            new AjaxOptions()
+                            {
+                                UpdateTargetId = "result",
+                                Url = Url.Action("ChangeStatus", "Client", new {id = item.Id}),
+                            }, new {@class = "btn btn-primary"})
+                    }
+                </td>
+            </tr>
+        }
     }
 </table>
 

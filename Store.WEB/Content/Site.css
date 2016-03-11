@@ -24,6 +24,8 @@ textarea { max-width: 280px; }
 
 .sizeInput { width: 30px; }
 
+
+
 .priceInput { width: 60px; }
 
 .colorInput { width: 80px; }
@@ -146,4 +148,12 @@ textarea { max-width: 280px; }
 
 .floatLeft {
     float: left;
+}
+
+.discountInput {
+     width: 50px; 
+}
+
+.discountText {
+    font-size:20px;
 }
