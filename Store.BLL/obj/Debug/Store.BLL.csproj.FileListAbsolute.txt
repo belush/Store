@@ -6,12 +6,14 @@ c:\Users\Евгений\documents\visual studio 2015\Projects\Store.WEB\Store.BL
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\Store.BLL.dll.config
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\Store.BLL.dll
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\Store.BLL.pdb
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\AutoMapper.dll
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\EntityFramework.dll
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\Microsoft.AspNet.Identity.Core.dll
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\Store.DAL.dll
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\Store.DAL.pdb
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\AutoMapper.xml
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\EntityFramework.xml
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\Microsoft.AspNet.Identity.Core.xml
@@ -19,5 +21,3 @@ C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\obj\Debug\Store.BLL.csprojResolveAssemblyReference.cache
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\obj\Debug\Store.BLL.dll
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\obj\Debug\Store.BLL.pdb
-C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\AutoMapper.dll
-C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.BLL\bin\Debug\AutoMapper.xml

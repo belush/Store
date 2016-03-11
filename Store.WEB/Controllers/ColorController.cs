@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using Store.BLL.DTO;
 using Store.BLL.Interfaces;
-//using Store.DAL.Entities;
 
 namespace Store.WEB.Controllers
 {

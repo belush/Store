@@ -30,7 +30,7 @@
 
 @foreach (var item in Model)
 {
-    <tr style="cursor:pointer" onclick="location.href = '@(Url.Action("Details", "Order", new { id = item.Id}))'">
+    <tr class="goodItemCursor" onclick="location.href = '@(Url.Action("Details", "Order", new { id = item.Id}))'">
         <td>
             @Html.DisplayFor(modelItem => item.Id)
         </td>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using Store.DAL.Context;
 using Store.DAL.Entities;
@@ -20,7 +21,7 @@ namespace Store.DAL.Repositories
 
         public Good Get(int id)
         {
-            return db.Goods.Find(id);
+            return GetAll().FirstOrDefault(g=>g.Id==id);
         }
 
         public IEnumerable<Good> Find(Func<Good, bool> predicate)
@@ -47,14 +48,11 @@ namespace Store.DAL.Repositories
 
         public void Edit(Good entity)
         {
-            //db.Entry(entity).State = EntityState.Modified;
             var good = db.Goods.FirstOrDefault(g => g.Id == entity.Id);
             good.Id = entity.Id;
             good.Name = entity.Name;
             good.Description = entity.Description;
             good.ImageType = entity.ImageType;
-            good.OrderItems = entity.OrderItems;
-            good.Color = entity.Color;
             good.Count = entity.Count;
             good.Date = entity.Date;
             good.Image = entity.Image;
@@ -63,8 +61,8 @@ namespace Store.DAL.Repositories
             good.SizeDepth = entity.SizeDepth;
             good.SizeHeight = entity.SizeHeight;
             good.SizeWidth = entity.SizeWidth;
-            good.OrderItems = entity.OrderItems;
-            good.Category = entity.Category;
+            good.Color = db.Colors.Find(entity.Color.Id);
+            good.Category =db.Categories.Find(entity.Category.Id);
             db.SaveChanges();
         }
 
@@ -100,7 +98,7 @@ namespace Store.DAL.Repositories
             if (!string.IsNullOrEmpty(search))
             {
                 IEnumerable<Good> goodsTemp =
-                    GetAll().ToList().Where(i => i.Name.ToLower().StartsWith(search.ToLower())).ToList();
+                    GetAll().ToList().Where(i => i.Name.ToLower().Contains(search.ToLower())).ToList();
                 goodsResult = goodsResult.Intersect(goodsTemp);
             }
 

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Web.Services.Description;
 
 namespace Store.WEB.Models
 {
@@ -15,6 +14,7 @@ namespace Store.WEB.Models
         public string Password { get; set; }
 
         [Required]
+        [MinLength(6, ErrorMessage = "Минимальная длина пароля 6 символов")]
         [DataType(DataType.Password)]
         [Compare("Password")]
         [Display(Name = "Повторите пароль")]

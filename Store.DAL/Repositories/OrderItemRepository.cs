@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using Store.DAL.Context;
 using Store.DAL.Entities;
@@ -31,6 +30,8 @@ namespace Store.DAL.Repositories
 
         public void Add(OrderItem entity)
         {
+            entity.Order = db.Orders.Find(entity.Order.Id);
+            entity.Good = db.Goods.Find(entity.Good.Id);
             db.OrderItems.Add(entity);
             db.SaveChanges();
         }
@@ -47,7 +48,22 @@ namespace Store.DAL.Repositories
 
         public void Edit(OrderItem orderItem)
         {
-            db.Entry(orderItem).State = EntityState.Modified;
+            //db.Entry(orderItem).State = EntityState.Modified;
+
+            var item = db.OrderItems.FirstOrDefault(i => i.Id == orderItem.Id);
+
+            if (item != null)
+            {
+                if (orderItem.Order != null)
+                {
+                    item.Order = orderItem.Order;
+                }
+
+                item.Good = orderItem.Good;
+                item.Number = orderItem.Number;
+                item.PriceSale = orderItem.PriceSale;
+            }
+
             db.SaveChanges();
         }
 
@@ -65,9 +81,10 @@ namespace Store.DAL.Repositories
             }
 
             var orderItems = db.OrderItems.ToList();
-            var orderItems2 = orderItems.Where(o => o.Order.Id == id).ToList();
 
-            return orderItems2;
+            //var orderItems2 = orderItems.Where(o => o.Order.Id == id).ToList();
+
+            return orderItems.Where(item => item.Order != null && item.Order.Id == id).ToList();
         }
 
         public IEnumerable<OrderItem> GetAllWithOrder()

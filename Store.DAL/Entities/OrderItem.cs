@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Store.DAL.Entities
 {
@@ -14,6 +15,9 @@ namespace Store.DAL.Entities
 
         public virtual Good Good { get; set; }
 
+        //public int Order_Id { get; set; }
+
+        //[ForeignKey("Order_Id")]
         public virtual Order Order { get; set; }
     }
 }

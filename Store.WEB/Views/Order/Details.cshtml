@@ -5,11 +5,11 @@
     ViewBag.Title = "Details";
 }
 
-<div style="float: left;" id="result">
+<div class="floatLeft" id="result">
     @Html.Action("ChangeStatus");
 </div>
 
-<div style="float: right;">
+<div class="adminRight">
     <h2>Информация о доставке</h2>
     <hr />
     <dl class="dl-horizontal">
@@ -66,7 +66,7 @@
     </dl>
 </div>
 
-<table class="table">
+<table class="table table-hover">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.OrderItems.FirstOrDefault().Good.Name)
@@ -80,19 +80,19 @@
     </tr>
 
     @foreach (OrderItemDTO item in ViewBag.CartInfo as IEnumerable<OrderItemDTO>)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Good.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PriceSale)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Number)
-                </td>
-            </tr>
-        }
+    {
+        <tr class="goodItemCursor" onclick="location.href = '@(Url.Action("Details", "Goods", new { id = item.Good.Id}))'">
+            <td>
+                @Html.DisplayFor(modelItem => item.Good.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PriceSale)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+        </tr>
+    }
 </table>
 
 @section Scripts {

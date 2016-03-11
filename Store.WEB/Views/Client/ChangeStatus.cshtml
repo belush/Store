@@ -1,60 +1,83 @@
-﻿@model IEnumerable<Store.DAL.Entities.ClientProfile>
+﻿@using Store.DAL.Migrations
+@model IEnumerable<Store.BLL.DTO.UserDTO>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ApplicationUser.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ApplicationUser.Email)
+            @Html.DisplayNameFor(model => model.Email)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Address)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Discount)
+        </th>
+        <th></th>
+        <th></th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
+        @Html.HiddenFor(modelItem => item.IsBlocked)
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
+                @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Discount)
+            </td>
+            <td>
+               
+            </td>
+            <td>
+                @Ajax.ActionLink("Сменить", "ChangeDiscount", new { id = item.Id, discount=5 },
+                          new AjaxOptions()
+                          {
+                              UpdateTargetId = "result",
+                              Url = Url.Action("ChangeDiscount", "Client", new { id = item.Id, discount = 5 }),
+                          }, new { @class = "btn btn-default" })
 
+            </td>
+                @*@using (Html.BeginForm("ChangeDiscount", "Client", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <td>
+                 
+                    @Html.EditorFor(modelItem => item.Discount)
+                    @Html.HiddenFor(modelItem => item.Id)                   
+                </td>
+                <th>
+                    <input type="submit" class="btn btn-primary" value="Сменить" />
+                </th>
+            }*@
+<td>
 
                 @if (item.IsBlocked == false)
                 {
-                    @Ajax.ActionLink("Блокировать", "ChangeStatus", new { id = "ok" },
-    new AjaxOptions()
-    {
-        UpdateTargetId = "result",
-        Url = Url.Action("ChangeStatus","Client",new {id=item.Id}),
-    }, new { @class = "btn btn-default" })
+                    @Ajax.ActionLink("Блокировать", "ChangeStatus", new { id = item.Id },
+                          new AjaxOptions()
+                          {
+                              UpdateTargetId = "result",
+                              Url = Url.Action("ChangeStatus", "Client", new { id = item.Id }),
+                          }, new { @class = "btn btn-default" })
 
-                    @*@Html.ActionLink("Блокировать", "ChangeStatus", new { id = item.Id }, new { @class = "btn btn-default" })*@
                 }
                 else
                 {
                     @Ajax.ActionLink("Разблокировать", "ChangeStatus", new { id = item.Id },
-    new AjaxOptions()
-    {
-        UpdateTargetId = "result",
-        Url = Url.Action("ChangeStatus", "Client", new { id = item.Id }),
-    }, new { @class = "btn btn-primary" })
-
-                    @*@Html.ActionLink("Разблокировать", "ChangeStatus", new { id = item.Id }, new { @class = "btn btn-primary" })*@
+                         new AjaxOptions()
+                         {
+                             UpdateTargetId = "result",
+                             Url = Url.Action("ChangeStatus", "Client", new { id = item.Id }),
+                         }, new { @class = "btn btn-primary" })
                 }
             </td>
         </tr>

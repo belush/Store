@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using Store.DAL.Entities;
+using Store.BLL.DTO;
+//using Store.DAL.Entities;
 
 namespace Store.BLL.Interfaces
 {
     public interface IClientLogic
     {
-        IEnumerable<ClientProfile> GetAll();
-        ClientProfile Get(string id);
-        IEnumerable<ClientProfile> Find(Func<ClientProfile, bool> predicate);
-        void Add(ClientProfile clientProfile);
+
+
+        IEnumerable<UserDTO> GetAll();
+        UserDTO Get(string id);
+        void Add(UserDTO user);
         void Delete(int id);
-        void Edit(ClientProfile clientProfile);
+        void Edit(UserDTO user);
     }
 }

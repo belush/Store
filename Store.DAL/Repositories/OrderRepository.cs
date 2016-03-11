@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using Store.DAL.Context;
 using Store.DAL.Entities;
@@ -47,7 +46,11 @@ namespace Store.DAL.Repositories
 
         public void Edit(Order entity)
         {
-            db.Entry(entity).State = EntityState.Modified;
+            //db.Entry(entity).State = EntityState.Modified;
+            var order = db.Orders.Find(entity.Id);
+            var status = db.Statuses.Find(entity.Status.Id);
+            order.Status = status;
+
             db.SaveChanges();
         }
     }

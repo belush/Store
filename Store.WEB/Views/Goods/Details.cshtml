@@ -1,60 +1,102 @@
-﻿@model Store.DAL.Entities.Good
+﻿@model Store.BLL.DTO.GoodDTO
 
 @{
     ViewBag.Title = "Details";
 }
 
 <h2>@Model.Name</h2>
-
 <div>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
+    <div class="goodDetailsleft">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Date)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Date)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Color.Name)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Color.Name)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.PriceSale)
+            </dt>
 
-        <dd>
-            @if (Model.Image != null)
-            {
-                <div class="pull-left" style="margin-right: 10px">
-                    <img class="img-thumbnail" width="75" height="75"
-                        src="@Url.Action("GetImage", "Goods", new { Model.Id })" />
-                </div>
-            }
-            @*@Html.DisplayFor(model => model.Image)*@
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Category.Name)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PriceSale)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Category.Name)
-        </dd>
-        <dt>
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.SizeWidth)
+            </dt>
 
-        <dd>
-            @Html.ActionLink("В корзину", "AddToCart", "Cart", new { goodId = Model.Id }, new { @class = "btn btn-primary" })
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.SizeWidth)
+            </dd>
 
-    </dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.SizeHeight)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SizeHeight)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SizeDepth)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SizeDepth)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Category.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Category.Name)
+            </dd>
+            <br />
+            <dt>
+            </dt>
+            <dd>
+                @Html.ActionLink("В корзину", "AddToCart", "Cart", new { goodId = Model.Id }, new { @class = "btn btn-primary" })
+            </dd>
+
+        </dl>
+
+    </div>
+    <div class="goodDetailsRight">
+        @Html.DisplayNameFor(model => model.Image)
+        <br />
+        @if (Model.Image != null)
+        {
+            <div class="pull-left getImage">
+                <img class="img-thumbnail imageDetails"
+                     src="@Url.Action("GetImage", "Goods", new {Model.Id})" />
+            </div>
+        }
+    </div>
 </div>
-<p>
-    @Html.ActionLink("К товарам", "Index")
-</p>
+
+<div class="clearBoth">
+    <p>
+        @Html.ActionLink("К товарам", "Index")
+    </p>
+</div>
+

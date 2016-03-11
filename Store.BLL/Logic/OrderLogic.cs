@@ -6,6 +6,7 @@ using Store.BLL.DTO;
 using Store.BLL.Interfaces;
 using Store.DAL.Entities;
 using Store.DAL.Interfaces;
+using Store.DAL.Repositories;
 
 namespace Store.BLL.Logic
 {
@@ -13,27 +14,37 @@ namespace Store.BLL.Logic
     {
         private readonly IOrderItemLogic _orderItemLogic;
         private readonly IRepository<Order> _repository;
+        private readonly IOrderItemRepository _orderItemRepository;
         private readonly IStatusLogic _statusLogic;
+        private readonly IGoodLogic _goodLogic;
+        private readonly IClientRepository _clientRepository;
 
-        public OrderLogic(IRepository<Order> repository, IStatusLogic statusLogic, IOrderItemLogic orderItemLogic)
+        public OrderLogic(IRepository<Order> repository, IStatusLogic statusLogic, IOrderItemLogic orderItemLogic,
+            IClientRepository clientRepository, IOrderItemRepository orderItemRepository, IGoodLogic goodLogic)
         {
             _repository = repository;
             _statusLogic = statusLogic;
             _orderItemLogic = orderItemLogic;
+            _clientRepository = clientRepository;
+            _orderItemRepository = orderItemRepository;
+            _goodLogic = goodLogic;
         }
 
         public IEnumerable<OrderDTO> GetAll()
         {
             var orders = _repository.GetAll();
-            var ordersDTO = Mapper.Map<IEnumerable<Order>, IEnumerable<OrderDTO>>(orders);
+            var ordersDto = Mapper.Map<IEnumerable<Order>, IEnumerable<OrderDTO>>(orders);
 
-            return ordersDTO;
+            return ordersDto;
         }
 
         public void ProcessOrder(Cart cart, DeliveryDTO deliveryDto)
         {
+            var orderItemsDto = cart.Lines;
+            var orderItems = Mapper.Map<IEnumerable<OrderItemDTO>, IEnumerable<OrderItem>>(orderItemsDto);
+
             var order = new Order();
-            order.OrderItems = cart.Lines;
+            order.OrderItems = orderItems;
             order.DateCreation = DateTime.Now;
             order.DateSale = DateTime.Now;
             //order.User
@@ -49,17 +60,7 @@ namespace Store.BLL.Logic
                 item.PriceSale = item.Good.PriceSale;
             }
 
-            var items = cart.Lines;
-            var orderItemsDto = Mapper.Map<IEnumerable<OrderItem>, IEnumerable<OrderItemDTO>>(items);
-
-
-            foreach (var item in orderItemsDto)
-            {
-                //todo: refactor DTO!!
-                _orderItemLogic.Add(item);
-            }
-
-            var orderDto = new OrderDTO();
+            OrderDTO orderDto = new OrderDTO();
 
             orderDto.Status = _statusLogic.Get(1);
 
@@ -69,30 +70,29 @@ namespace Store.BLL.Logic
             orderDto.Sum = cart.Lines.Sum(x => x.PriceSale * x.Number);
             orderDto.Delivery = deliveryDto;
 
-            var order = Mapper.Map<OrderDTO, Order>(orderDto);
+            Order order = new Order();
+            order.Id = orderDto.Id;
+            order.User = _clientRepository.Get(userDto.Id);
+            order.DateCreation = DateTime.Now;
+            order.DateSale = DateTime.Now;
+            order.Sum = orderDto.Sum;
 
-            //todo: refactor DTO !!!!!!
-            //var order = new Order();
+            var delivery = Mapper.Map<DeliveryDTO, Delivery>(deliveryDto);
+            var status = Mapper.Map<StatusDTO, Status>(_statusLogic.Get(1));
 
-            //order.Status = _statusLogic.Get(1);
-
-            //order.DateCreation = DateTime.Now;
-            //order.DateSale = DateTime.Now;
-            //order.User = userDto;
-            //order.Sum = cart.Lines.Sum(x => x.PriceSale * x.Number);
-            //order.Delivery = deliveryDto;
+            order.Status = status;
+            order.Delivery = delivery;
 
             _repository.Add(order);
 
-            ////todo: refactor
-            foreach (var item in orderItemsDto)
-            {
-                item.Order = orderDto;
-                _orderItemLogic.Edit(item);
-            }
-            order.OrderItems = items;
+            var items = cart.Lines;
 
-            _repository.Edit(order);
+            foreach (OrderItemDTO itemDto in items)
+            {
+                itemDto.Good = _goodLogic.Get(itemDto.Good.Id);
+                itemDto.Order = new OrderDTO { Id = order.Id };
+                _orderItemLogic.Add(itemDto);
+            }
         }
 
         public OrderDTO Get(int? id)
@@ -103,9 +103,9 @@ namespace Store.BLL.Logic
             }
 
             var order = _repository.Get(id.Value);
-            var orderDTO = Mapper.Map<Order, OrderDTO>(order);
+            var orderDto = Mapper.Map<Order, OrderDTO>(order);
 
-            return orderDTO;
+            return orderDto;
         }
 
         public void Add(OrderDTO orderDto)

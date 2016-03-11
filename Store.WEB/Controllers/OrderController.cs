@@ -3,14 +3,16 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using AutoMapper;
+using Microsoft.AspNet.Identity;
 using Store.BLL.DTO;
 using Store.BLL.Interfaces;
 using Store.WEB.Models;
 using Store.WEB.Models.OrderViewModels;
+using WebGrease.Css.Extensions;
 
 namespace Store.WEB.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly IOrderItemLogic _orderItemLogic;
@@ -24,6 +26,7 @@ namespace Store.WEB.Controllers
             _statusLogic = statusLogic;
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Index()
         {
             var orders = _orderLogic.GetAll().OrderByDescending(o => o.Id).ToList();
@@ -51,8 +54,6 @@ namespace Store.WEB.Controllers
                 orderDto.DateSale = cartViewModel.DateSale;
                 orderDto.Id = cartViewModel.Id;
                 orderDto.Status = cartViewModel.Status;
-                //TODO: check
-                //order.User = cartViewModel.User;
                 orderDto.Sum = cartViewModel.Sum;
 
                 _orderLogic.Add(orderDto);
@@ -62,6 +63,7 @@ namespace Store.WEB.Controllers
             return View(orderDto);
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -90,7 +92,33 @@ namespace Store.WEB.Controllers
             return View(order);
         }
 
+        [Authorize(Roles = "user, admin")]
+        public ActionResult UserDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
+            var order = _orderLogic.Get(id);
+
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (order.User.Id != User.Identity.GetUserId())
+            {
+                return RedirectToAction("Index", "Account");
+            }
+
+            var items = _orderItemLogic.GetItemsOfOrder(id);
+            ViewBag.CartInfo = items;
+
+            return View(order);
+        }
+
+        [Authorize(Roles = "admin")]
         public ActionResult ChangeStatus(int? id, string status)
         {
             //TODO: refactor use modelview  
@@ -105,17 +133,6 @@ namespace Store.WEB.Controllers
 
             var order = _orderLogic.Get(id);
 
-            var orderDetails = new OrderDetailsModel
-            {
-                Id = order.Id,
-                DateCreation = order.DateCreation,
-                DateSale = order.DateSale.ToShortDateString(),
-                Status = order.Status.Name,
-                User = order.User.Name,
-                Sum = order.Sum
-            };
-            orderDetails.Statuses = statuses;
-
             if (status != null)
             {
                 var statusId = int.Parse(status);
@@ -125,13 +142,23 @@ namespace Store.WEB.Controllers
                 _orderLogic.Edit(order);
             }
 
-            if (order == null)
+            var orderDetails = new OrderDetailsModel
             {
-                return HttpNotFound();
+                Id = order.Id,
+                DateCreation = order.DateCreation,
+                DateSale = order.DateSale.ToShortDateString(),
+                Status = order.Status.Name,
+                Sum = order.Sum
+            };
+
+            if (order.User != null)
+            {
+                orderDetails.User = order.User.Name;
             }
-            //return View(order);
+
+            orderDetails.Statuses = statuses;
+
             return PartialView(orderDetails);
-            return PartialView(order);
         }
     }
 }

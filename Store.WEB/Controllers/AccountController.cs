@@ -3,12 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Store.BLL.DTO;
 using Store.BLL.Interfaces;
 using Store.WEB.Models;
+using Store.WEB.Models.OrderViewModels;
 
 namespace Store.WEB.Controllers
 {
@@ -42,27 +44,22 @@ namespace Store.WEB.Controllers
         {
             var id = User.Identity.GetUserId();
 
-            var orders = new List<OrderDTO>();
+            var orders =
+                _orderLogic.GetAll()
+                    .ToList()
+                    .Where(order => order.User != null)
+                    .Where(order => order.User.Id == id)
+                    .ToList();
 
-            foreach (var order in _orderLogic.GetAll().ToList())
-            {
-                if (order.User != null)
-                {
-                    if (order.User.Id == id)
-                    {
-                        orders.Add(order);
-                    }
-                }
-            }
+            var orderViews = Mapper.Map<IEnumerable<OrderDTO>, IEnumerable<OrderViewModel>>(orders);
 
-            return View(orders);
+            return View(orderViews.OrderByDescending(i => i.Id));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginModel model)
         {
-            //await SetInitialDataAsync();
             if (ModelState.IsValid)
             {
                 var userDto = new UserDTO {Email = model.Email, Password = model.Password};
@@ -78,7 +75,7 @@ namespace Store.WEB.Controllers
                     {
                         IsPersistent = true
                     }, claim);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Goods");
                 }
             }
             return View(model);
@@ -113,8 +110,24 @@ namespace Store.WEB.Controllers
                     IsBlocked = false
                 };
                 var operationDetails = await UserService.Create(userDto);
-                if (operationDetails.Succedeed)
+
+                //login
+                var claim = await UserService.Authenticate(userDto);
+                if (claim == null)
+                {
+                    ModelState.AddModelError("", "Неверный логин или пароль.");
+                }
+                else
+                {
+                    AuthenticationManager.SignOut();
+                    AuthenticationManager.SignIn(new AuthenticationProperties
+                    {
+                        IsPersistent = true
+                    }, claim);
                     return View("SuccessRegister");
+                }
+                //
+
                 ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
             }
             return View(model);

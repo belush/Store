@@ -10,15 +10,15 @@
     Url = Url.Action("GoodsSearch")
 }))
 {
-    <div style="background: ; float: ;" class="input-group">
-        <fieldset style="background: ; float: right; ">
+    <div class="input-group">
+        <fieldset class="adminRight">
             <legend>Фильтр</legend>
-            <div style="background: ; float: right; ">
+            <div class="adminRight">
 
                 Цена:
                 @Html.Editor("PriceFrom", new { htmlAttributes = new { @class = "form-control", style = "width: 80px; ", placeholder = "от" } })
                 @Html.Editor("PriceTo", new { htmlAttributes = new { @class = "form-control", style = "width: 80px; ", placeholder = "до" } })
-                
+
                 Цвет:
                 @Html.DropDownList("ColorId", ViewBag.Colors as List<SelectListItem>, new { @class = "btn btn-default dropdown-toggle" })
                 <br />
@@ -26,17 +26,17 @@
 
                 Размер:
                 от
-                <input class="sizeInput form-control" style="width: 50px" type="text" placeholder="Выс." name="SizeHFrom" />
-                <input class="sizeInput form-control" style="width: 50px" type="text" placeholder="Шир." name="SizeWFrom" />
-                <input class="sizeInput form-control" style="width: 50px" type="text" placeholder="Глуб." name="SizeDFrom" />
+                <input class="form-control" style="width: 50px" type="text" placeholder="Выс." name="SizeHFrom" />
+                <input class="form-control" style="width: 50px" type="text" placeholder="Шир." name="SizeWFrom" />
+                <input class="form-control" style="width: 50px" type="text" placeholder="Глуб." name="SizeDFrom" />
                 до
-                <input class="sizeInput form-control" style="width: 50px" type="text" placeholder="Выс." name="SizeHTo" />
-                <input class="sizeInput form-control" style="width: 50px" type="text" placeholder="Шир." name="SizeWTo" />
-                <input class="sizeInput form-control" style="width: 50px" type="text" placeholder="Глуб." name="SizeDTo" />
+                <input class="form-control" style="width: 50px" type="text" placeholder="Выс." name="SizeHTo" />
+                <input class="form-control" style="width: 50px" type="text" placeholder="Шир." name="SizeWTo" />
+                <input class="form-control" style="width: 50px" type="text" placeholder="Глуб." name="SizeDTo" />
 
                 Категория:
                 @Html.DropDownList("CategoryId", ViewBag.Categories as List<SelectListItem>, new { @class = "btn btn-default dropdown-toggle" })
-                <input class="btn btn-primary" style="float: right" type="submit" value="Фильтровать" />
+                <input class="btn btn-primary adminRight" type="submit" value="Фильтровать" />
             </div>
 
             <div class="input-group" style="padding:5px">
@@ -58,177 +58,11 @@
     OnSuccess = "ParseJson"
 }))
 {
-
 }
 
-<div style="clear: both;" id="result">
+<div class="clearBoth" id="result">
     @Html.Action("GoodsSearch")
 </div>
-
-@*<table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.Count)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SizeWidth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SizeHeight)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SizeDepth)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PriceSale)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Color)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @if (item.Image != null)
-                    {
-                        <div class="pull-left" style="margin-right: 10px">
-                            <img class="img-thumbnail" width="75" height="75"
-                                 src="@Url.Action("GetImage", "Goods", new { item.Id })" />
-                        </div>
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Count)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SizeWidth)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SizeHeight)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SizeDepth)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PriceSale)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Color)
-                </td>
-                <td>
-                    @Html.ActionLink("В корзину", "Create", "OrderItems", new { id = item.Id }, null) |
-                    @Html.ActionLink("Подробнее", "Details", new { id = item.Id })
-                    <br />
-                    @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
-                </td>
-            </tr>
-        }
-
-    </table>*@
-@*<div style="overflow:hidden" id="">
-        @foreach (var item in Model)
-        {
-            <div class="item">
-                <div class="img">
-                    @if (item.Image != null)
-                    {
-                        <div class="pull-left" style="margin-right: 10px">
-                            <img class="img-thumbnail" width="110" height="110"
-                                 src="@Url.Action("GetImage", "Goods", new {item.Id})" />
-                        </div>
-                    }
-                </div>
-                <div class="text">
-                    <h4>@item.Name</h4>
-                    @item.Description
-                    <h4>@item.PriceSale грн @Html.ActionLink("В корзину", "AddToCart","Cart", new { goodId = item.Id }, null)</h4>
-                    @Html.ActionLink("Подробнее", "Details", "Goods", new { id = item.Id }, null)
-                </div>
-            </div>
-        }
-
-    </div>*@
-
-<script type="text/javascript">
-
-    function ParseJson(data) {
-        var target = $("#result");
-        target.empty();
-
-        if (data.length == 0) {
-            target.append("Результатов нет<br>Попробуй еще!");
-        } else {
-
-            target.append("<tr>+" +
-                "<th>@Html.DisplayNameFor(model => model.Name)</th>" +
-                "<th>@Html.DisplayNameFor(model => model.Image)</th>" +
-                "<th>@Html.DisplayNameFor(model => model.Description)</th>" +
-                "<th>@Html.DisplayNameFor(model => model.PriceSale)</th>" +
-                "<th>@Html.DisplayNameFor(model => model.Category)</th>" +
-                "<th>@Html.DisplayNameFor(model => model.Color)</th>" +
-                "<th>@Html.DisplayNameFor(model => model.Count)</th>" +
-                "<th>@Html.DisplayNameFor(model => model.Date)</th>" +
-                "<th></th>" +
-                "</tr>");
-
-            for (var i = 0; i < data.length; i++) {
-                var date = new Date(parseInt(data[i].Date.replace("/Date(", "").replace(")/", ""), 10)).toLocaleString();
-
-                target.append("<tr>+" +
-                    "<td><b>" + data[i].Name + "</b></td>" +
-                    "<td></td>" +
-                     "<td></td>" +
-                    //"<td>" + data[i].Image + "</td>" +
-                    //"<td>     <img class=\"img-thumbnail\" width=\"75\" height=\"75\" src=\""+src+"\" /></td>" +
-                    "<td>" + data[i].Description + "</td>" +
-                    "<td>" + data[i].PriceSale + "</td>" +
-                    "<td>" + data[i].Category + "</td>" +
-                    "<td>" + data[i].Color + "</td>" +
-                    "<td>" + data[i].Count + "</td>+" +
-                    "<td>" + date + "</td>" +
-                         "<td><a href=http://localhost:58338/OrderItems/Create/" + data[i].Id + ">Buy</a></td>" +
-                    "</tr>");
-
-                @*<div class="item">
-                    <h3>@Model.Name</h3>
-                    @Model.Description
-                    @using (Html.BeginForm("AddToCart", "Cart")) {
-                    @Html.HiddenFor(x => x.ProductID)
-                    @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-                    <input type="submit" value="+ Add to cart" />
-                                    }
-                    <h4>@Model.Price.ToString("c")</h4>
-                </div>*@
-            }
-        }
-    }
-</script>
 
 @section Scripts {
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>

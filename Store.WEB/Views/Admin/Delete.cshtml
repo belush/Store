@@ -1,0 +1,107 @@
+﻿@model Store.BLL.DTO.GoodDTO
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Удаление</h2>
+
+<h3>Вы уверены что хотите удалить этот товар?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+        <dd>
+            @if (Model.Image != null)
+            {
+                <div class="pull-left getImage">
+                    <img class="img-thumbnail image"
+                         src="@Url.Action("GetImage", "Goods", new {Model.Id})" />
+                </div>
+            }
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Count)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Count)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SizeWidth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SizeWidth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SizeHeight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SizeHeight)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SizeDepth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SizeDepth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PriceIncome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PriceIncome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PriceSale)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PriceSale)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            @Html.ActionLink("Назад", "Index") |
+            <input type="submit" value="Удалить" class="btn btn-primary"/>
+        </div>
+    }
+</div>

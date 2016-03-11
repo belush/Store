@@ -12,10 +12,12 @@ namespace Store.BLL.Logic
     public class OrderItemLogic : IOrderItemLogic
     {
         private readonly IOrderItemRepository _repository;
+        private readonly IGoodRepository _goodRepository;
 
-        public OrderItemLogic(IOrderItemRepository repository)
+        public OrderItemLogic(IOrderItemRepository repository, IGoodRepository goodRepository)
         {
             _repository = repository;
+            _goodRepository = goodRepository;
         }
 
         public IEnumerable<OrderItemDTO> GetAll()
@@ -48,6 +50,7 @@ namespace Store.BLL.Logic
         public void Add(OrderItemDTO orderItemDto)
         {
             var orderItem = Mapper.Map<OrderItemDTO, OrderItem>(orderItemDto);
+           
             _repository.Add(orderItem);
         }
 

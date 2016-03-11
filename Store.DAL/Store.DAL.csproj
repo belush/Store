@@ -131,6 +131,18 @@
     <Compile Include="Migrations\201603062228113_house.Designer.cs">
       <DependentUpon>201603062228113_house.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603091917500_new.cs" />
+    <Compile Include="Migrations\201603091917500_new.Designer.cs">
+      <DependentUpon>201603091917500_new.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603091933403_new3.cs" />
+    <Compile Include="Migrations\201603091933403_new3.Designer.cs">
+      <DependentUpon>201603091933403_new3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603101207447_discount.cs" />
+    <Compile Include="Migrations\201603101207447_discount.Designer.cs">
+      <DependentUpon>201603101207447_discount.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />
@@ -166,6 +178,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603062228113_house.resx">
       <DependentUpon>201603062228113_house.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603091917500_new.resx">
+      <DependentUpon>201603091917500_new.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603091933403_new3.resx">
+      <DependentUpon>201603091933403_new3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603101207447_discount.resx">
+      <DependentUpon>201603101207447_discount.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

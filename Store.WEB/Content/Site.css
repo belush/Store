@@ -1,9 +1,10 @@
 ﻿body {
-    padding-top: 50px;
     padding-bottom: 20px;
+    padding-top: 50px;
 }
 
 /* Set padding to keep content from hitting the edges */
+
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
@@ -12,53 +13,137 @@
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
-.dl-horizontal dt {
-    white-space: normal;
-}
+
+.dl-horizontal dt { white-space: normal; }
 
 /* Set width on the form input elements since they're 100% wide by default */
+
 input,
 select,
-textarea {
-    max-width: 280px;
-}
+textarea { max-width: 280px; }
 
-.sizeInput {
-    width: 30px;
-}
+.sizeInput { width: 30px; }
 
-.priceInput {
-       width: 60px;
-}
+.priceInput { width: 60px; }
 
-.colorInput {
-       width: 80px;
-}
+.colorInput { width: 80px; }
 
-.categoryInput {
-       width: 80px;
-}
+.categoryInput { width: 80px; }
 
 .item {
-    width: 200px;
-    float: left;
     background: ;
     border: 0px solid lightblue;
+    float: left;
+    width: 200px;
 }
 
-.item  :hover{ 
-    background:#b0e0e6 ;
-}
+/*.item :hover { background: #b0e0e6; }*/
 
-.item .img {
-    overflow: hidden;
-}
+.item .img { overflow: hidden; }
 
 .inputDescription {
-    width: 30px;
     height: 100px;
+    width: 30px;
 }
 
-.filterPriceInput {
-     width: 80px;
+.filterPriceInput { width: 80px; }
+
+.addToCartBtn {
+    background: #00C853;
+    color: white;
+    padding: 2px 5px;
+    float: left;
+    border: 1px solid gray;
+}
+
+    .addToCartBtn :hover {
+        color: black;
+        text-decoration: none;
+    }
+
+    .addToCartBtn a {
+        color: white;
+    }
+
+.price {
+    background: #FFF59D;
+    color: black;
+    padding: 3px;
+    float: right;
+    font-weight: bold;
+}
+
+.shadow {
+    border:1px solid #ccc;
+    padding: 10px;
+}
+
+    .shadow:hover {
+        -moz-box-shadow: 0 0 8px rgba(0,0,0,0.5);
+        -webkit-box-shadow: 0 0 8px rgba(0,0,0,0.5);
+        box-shadow: 0 0 8px rgba(0,0,0,0.5);
+    }
+
+    .getImage {
+        margin-right:10px;
+    }
+
+      .getImageAdmin {
+        margin-right:10px;
+        min-width: 80px;
+    }
+
+.image {
+    width: 110px;
+}
+
+.imageDetails {
+    width: 75px;   
+}
+
+.imageAdmin {
+    max-width:100%;
+    max-height:150px;
+}
+
+.adminRight {
+    float: right;
+}
+
+.adminPriceInput {
+    width: 80px;
+}
+
+.adminSizeInput {
+    width: 50px;
+}
+
+.goodDetailsleft {
+    float:left; 
+    width:70%;
+}
+
+.goodDetailsRight {
+    float:right; 
+    width:30%;
+}
+
+.clearBoth {
+    clear:both;
+}
+
+.goodItemHeight {
+    height: 200px;
+}
+
+.goodItemPadding {
+   padding: 5px;
+}
+
+.goodItemCursor{
+   cursor:pointer;
+}
+
+.floatLeft {
+    float: left;
 }

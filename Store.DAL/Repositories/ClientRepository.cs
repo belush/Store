@@ -51,12 +51,9 @@ namespace Store.DAL.Repositories
 
         public void Edit(ClientProfile entity)
         {
-            var clientProfile = db.ClientProfiles.FirstOrDefault(c => c.Id == entity.Id);
-            clientProfile.Id = entity.Id;
-            clientProfile.Name = entity.Name;
-            clientProfile.Address = entity.Address;
-            clientProfile.ApplicationUser = entity.ApplicationUser;
-            clientProfile.Orders = entity.Orders;
+            var clientProfile = db.ClientProfiles.Find(entity.Id);
+            clientProfile.IsBlocked = entity.IsBlocked;
+            clientProfile.Discount = entity.Discount;
             db.SaveChanges();
         }
     }
