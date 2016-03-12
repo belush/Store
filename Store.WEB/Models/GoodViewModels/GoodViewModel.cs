@@ -22,7 +22,7 @@ namespace Store.WEB.Models
 
         public int SizeDepth { get; set; }
 
-        public decimal PriceIncome { get; set; }
+        public decimal PriceWithDiscount { get; set; }
 
         public decimal PriceSale { get; set; }
 

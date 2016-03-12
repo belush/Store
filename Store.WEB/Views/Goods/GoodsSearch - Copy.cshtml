@@ -1,0 +1,51 @@
+﻿@using Store.WEB.Helpers
+@model IEnumerable<Store.WEB.Models.GoodViewModel>
+
+<div>
+    <h4>Товары (@Model.Count())</h4>
+    <table>
+        <tr>
+            @{ int counter = 0; }
+            @foreach (var item in Model)
+            {
+                counter++;
+                <td class="item shadow goodItemCursor" onclick="location.href = '@(Url.Action("Details", "Goods", new { id = item.Id }))'">
+                    <div>
+                        <div class="img">
+                            @if (item.Image != null)
+                            {
+                                <div class="pull-left getImage">
+                                    <img class="img-thumbnail goodItemHeight"
+                                         src="@Url.Action("GetImage", "Goods", new { item.Id })" />
+                                </div>
+                            }
+                        </div>
+                        <div class="text goodItemPadding">
+                            <h4>@item.Name</h4>
+
+                            <div class="price">
+                                @item.PriceSale грн
+                            </div>
+                            <div >
+                                @item.PriceWithDiscount грн
+                            </div>
+
+                            <div class="addToCartBtn">
+                                @Html.ActionLink("в корзину", "AddToCart", "Cart", new { goodId = item.Id }, null)
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                if (counter >= 5)
+                {
+                    counter = 0;
+                    @:</tr>
+                    @:<tr>
+                }
+            }
+        </tr>
+    </table>
+    @*<div>
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("GoodsSearch", new { page = x }))
+    </div>*@
+</div>

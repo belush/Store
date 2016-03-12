@@ -149,3 +149,7 @@ C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\bin\
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\obj\Debug\Store.WEB.csprojResolveAssemblyReference.cache
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\obj\Debug\Store.WEB.dll
 C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\obj\Debug\Store.WEB.pdb
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\bin\PagedList.dll
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\bin\PagedList.Mvc.dll
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\bin\PagedList.xml
+C:\Users\Евгений\Documents\Visual Studio 2015\GitHub\Store\Store.WEB\bin\PagedList.Mvc.xml

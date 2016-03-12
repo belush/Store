@@ -8,6 +8,9 @@ using Store.BLL.DTO;
 using Store.BLL.Interfaces;
 using Store.WEB.Helpers;
 using Store.WEB.Models;
+using Store.WEB.Models.GoodViewModels;
+using PagedList.Mvc;
+using PagedList;
 
 namespace Store.WEB.Controllers
 {
@@ -53,37 +56,19 @@ namespace Store.WEB.Controllers
 
             foreach (var goodView in goodViews)
             {
-                var dis = (100 - user.Discount)/100;
-                goodView.PriceIncome = goodView.PriceSale*(decimal) dis;
+                var dis = (100 - user.Discount) / 100;
+                goodView.PriceWithDiscount = goodView.PriceSale * (decimal)dis;
             }
 
-            //return View(goodViews
-            //   .OrderBy(good => good.Id)
-            //   .Skip((page - 1) * pageSize)
-            //   .Take(pageSize));
+            //todo: refactor -take goods grop _goodLogic
+            int pageSize = 5; // количество объектов на страницу
+            IEnumerable<GoodViewModel> goodssPerPages = goodViews.Skip((page - 1) * pageSize).Take(pageSize);
+            PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItems = goodViews.Count() };
+            GoodListViewModel ivm = new GoodListViewModel { PageInfo = pageInfo, Goods = goodssPerPages };
 
-            //goodViews= goodViews
-            //  .OrderBy(good => good.Id)
-            //  .Skip((page - 1) * pageSize)
-            //  .Take(pageSize);
-
-            //GoodListViewModel model = new GoodListViewModel
-            //{
-            //    Goods = goods
-            //       .OrderBy(good => good.Id)
-            //       .Skip((page - 1) * pageSize)
-            //       .Take(pageSize),
-            //    PagingInfo = new PagingInfo
-            //    {
-            //        CurrentPage = page,
-            //        ItemsPerPage = pageSize,
-            //        TotalItems = goods.Count()
-            //    }
-            //};
-
-            if (goodViews.Any())
+            if (ivm.Goods.Any())
             {
-                return PartialView(goodViews);
+                return PartialView(goodViews.ToPagedList(page, pageSize));
             }
 
             return PartialView("SearchNull");
