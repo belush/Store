@@ -249,6 +249,9 @@
     <Compile Include="Models\OrderViewModels\OrderViewModel.cs" />
     <Compile Include="Models\PageInfo.cs" />
     <Compile Include="Models\RegisterModel.cs" />
+    <Compile Include="Models\ReportViewModels\ReportIndexModel.cs" />
+    <Compile Include="Models\ReportViewModels\ReportItem.cs" />
+    <Compile Include="Models\ReportViewModels\ReportViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Util\NinjectDependencyResolver.cs" />
@@ -351,6 +354,7 @@
     <Content Include="Views\Order\UserDetails.cshtml" />
     <Content Include="Views\Goods\GoodsPaging.cshtml" />
     <Content Include="Views\Goods\GoodsSearch - Copy.cshtml" />
+    <Content Include="Views\Admin\Report.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

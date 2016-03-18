@@ -30,6 +30,7 @@
                     @if (User.IsInRole("admin"))
                     {
                         <li>@Html.ActionLink("Заказы", "Index", "Order")</li>
+                        <li>@Html.ActionLink("Отчет", "Report", "Admin")</li>
                         <li>@Html.ActionLink("Панель администратора ", "Index", "Admin")</li>
                     }
                     <li>@Html.Action("Summary", "Cart")</li>
