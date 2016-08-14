@@ -1,0 +1,18 @@
+﻿@model Store.WEB.Models.GoodViewModels.GoodListViewModel
+
+<div>
+        <table>
+            @foreach (var item in Model.Goods)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.PriceSale</td>
+                </tr>
+            }
+        </table>
+</div>
+
+<div class="btn-group">
+    @Html.PageLinks(Model.PageInfo, x => Url.Action("GoodsSearch", new { page = x }))
+</div>
+

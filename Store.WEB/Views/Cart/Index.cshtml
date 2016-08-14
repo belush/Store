@@ -1,0 +1,65 @@
+﻿@model Store.WEB.Models.CartIndexViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Корзина</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Кол-во</th>
+            <th>Товар</th>
+            <th class="text-right">Цена</th>
+            <th class="text-right">Общая цена</th>
+            <th class="text-right"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Cart.Lines)
+        {
+            <tr>
+                <td class="text-center">@item.Number</td>
+                <td class="text-left">@item.Good.Name</td>
+                <td class="text-right">@item.Good.PriceSale.ToString("# грн")</td>
+                <td class="text-right">
+                    @((item.Number*item.Good.PriceSale).ToString("# грн"))
+                </td>
+                <td class="text-right">
+                   @Html.ActionLink("Удалить", "RemoveFromCart", "Cart", new { goodId = item.Good.Id, returnUrl = Model.ReturnUrl}, null)
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" class="text-right"><b>Итого:</b></td>
+            <td class="text-right">
+                <b>@Model.Cart.ComputeTotalValue().ToString("# грн")</b>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<div class="text-center">
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (ViewBag.userBlocked)
+        {
+            @:Ваш аккаунт блокирован
+            <br/>
+        }
+        else
+        {
+            @Html.ActionLink("Оформить заказ", "Checkout", null, new { @class = "btn btn-primary" })
+        }
+    }
+    else
+    {
+        @:Для оформления заказа @Html.ActionLink("войдите", "Login", "Account")
+        @:в систему или @Html.ActionLink("зарегистрируйтесь", "Register", "Account")   
+        <br/>
+    }
+   
+    @Html.ActionLink("Продолжить покупки", "Index", "Goods", null, new {@class = "btn btn-default"})
+</div>

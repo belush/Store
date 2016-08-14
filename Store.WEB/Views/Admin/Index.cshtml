@@ -1,0 +1,87 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<Store.WEB.Models.GoodAdminView>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<div style="float: left;">
+    <h2>Панель администратора</h2>
+
+    <div class="list-group">
+        @Html.ActionLink("Статусы", "Index", "Status",null, new {@class = "list-group-item"})
+        @Html.ActionLink("Категории", "Index", "Category", null, new {@class = "list-group-item"})
+        @Html.ActionLink("Цвета", "Index", "Color", null, new {@class = "list-group-item"})
+        @Html.ActionLink("Клиенты", "Index", "Client", null, new {@class = "list-group-item"})
+    </div>
+
+    <p>
+        @Html.ActionLink("Добавить", "Create", null, new {@class = "btn btn-primary"})
+    </p>
+</div>
+@using (Ajax.BeginForm("GoodsSearch", new AjaxOptions()
+{
+    UpdateTargetId = "result",
+    Url = Url.Action("GoodsSearch"),
+}))
+{
+    <div style="background: ; float: right;" class="input-group">
+        <br />
+        <fieldset class="adminRight">
+            <legend>Фильтр</legend>
+            <div class="adminRight">
+                Цена:
+                от
+                @Html.Editor("PriceFrom", new { htmlAttributes = new { @class = "form-control", style = "width: 80px;", placeholder = "от" } })
+                до
+                @Html.Editor("PriceTo", new { htmlAttributes = new { @class = "form-control", style = "width: 80px; ", placeholder = "до" } })
+                
+                Цвет:
+                @Html.DropDownList("ColorId", Model.FirstOrDefault().Colors, new { @class = "btn btn-default dropdown-toggle" })
+                <br />
+                <br />
+
+                Размер:
+                от
+                <input class="form-control" style="width: 50px" type="text" placeholder="Выс." name="SizeHFrom" />
+                <input class="form-control" style="width: 50px" type="text" placeholder="Шир." name="SizeWFrom" />
+                <input class="form-control" style="width: 50px" type="text" placeholder="Глуб." name="SizeDFrom" />
+                до
+                <input class="form-control" style="width: 50px" type="text" placeholder="Выс." name="SizeHTo" />
+                <input class="form-control" style="width: 50px" type="text" placeholder="Шир." name="SizeWTo" />
+                <input class="form-control" style="width: 50px" type="text" placeholder="Глуб." name="SizeDTo" />
+
+                Категория:
+                @Html.DropDownList("CategoryId", Model.FirstOrDefault().Categories, new { @class = "btn btn-default dropdown-toggle" })
+                <br />
+                <input class="btn btn-primary adminRight" type="submit" value="Фильтровать" />
+                <br />
+                <br />
+
+                <div>
+                    <div>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="submit">Поиск</button>
+                            </span>
+                            <input type="text" class="form-control" name="search" placeholder="Введите запрос...">
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+            </div>
+</fieldset>
+    </div>
+}
+
+<div class="clearBoth" id="result">
+    @Html.Action("GoodsSearch")
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}

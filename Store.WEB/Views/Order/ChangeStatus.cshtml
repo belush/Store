@@ -1,0 +1,64 @@
+﻿@model Store.WEB.Models.OrderViewModels.OrderDetailsModel
+
+<h2>Заказ</h2>
+
+<hr />
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.Id)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Id)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.DateCreation)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.DateCreation)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.DateSale)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.DateSale)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Sum)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Sum)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.User)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.User)
+    </dd>
+    <br />
+    <dt>
+        @Html.DisplayNameFor(model => model.Status)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Status)
+    </dd>
+
+    @using (Ajax.BeginForm("ChangeStatus", new AjaxOptions()
+    {
+        UpdateTargetId = "result",
+        Url = Url.Action("ChangeStatus"),
+    }))
+    {
+        <dt>
+            Сменить статус
+        </dt>
+        <dd>
+            @Html.DropDownList("status", Model.Statuses, new { @class = "btn btn-default dropdown-toggle" })  
+            <input type="submit" class="btn btn-primary" value="Сменить статус" />
+        </dd>
+    }
+</dl>

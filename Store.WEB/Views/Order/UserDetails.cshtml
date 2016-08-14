@@ -1,0 +1,92 @@
+﻿@using Store.BLL.DTO
+@model  Store.BLL.DTO.OrderDTO
+
+@{
+    ViewBag.Title = "UserDetails";
+}
+
+<div class="floatLeft">
+    <h2>Информация о доставке</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery.Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery.Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery.City)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery.Street)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery.Street)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery.House)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery.House)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery.Flat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery.Flat)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Delivery.Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Delivery.Phone)
+        </dd>
+    </dl>
+</div>
+
+<table class="table table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderItems.FirstOrDefault().Good.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderItems.FirstOrDefault().PriceSale)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderItems.FirstOrDefault().Number)
+        </th>
+    </tr>
+
+    @foreach (OrderItemDTO item in ViewBag.CartInfo as IEnumerable<OrderItemDTO>)
+    {
+        <tr class="goodItemCursor" onclick="location.href = '@(Url.Action("Details", "Goods", new { id = item.Good.Id}))'">
+            <td>
+                @Html.DisplayFor(modelItem => item.Good.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PriceSale)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+        </tr>
+    }
+</table>

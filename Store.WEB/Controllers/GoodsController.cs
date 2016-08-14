@@ -54,11 +54,16 @@ namespace Store.WEB.Controllers
 
             var user = _clientLogic.Get(id);
 
-            foreach (var goodView in goodViews)
+            if (user!=null)
             {
-                var dis = (100 - user.Discount) / 100;
-                goodView.PriceWithDiscount = goodView.PriceSale * (decimal)dis;
+                foreach (var goodView in goodViews)
+                {
+
+                    var dis = (100 - user.Discount) / 100;
+                    goodView.PriceWithDiscount = goodView.PriceSale * (decimal)dis;
+                }
             }
+        
 
             //todo: refactor -take goods grop _goodLogic
             int pageSize = 5; // количество объектов на страницу
